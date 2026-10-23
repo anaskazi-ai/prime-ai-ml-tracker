@@ -1400,7 +1400,7 @@
 
   async function finishPomo() {
     playStudyChime();
-    toast(`🏆 Focus session finished! Logged ${pomoModeMins}m study momentum, dj.`, 'success');
+    toast(`🏆 Focus session finished! Logged ${pomoModeMins}m study momentum, Kazi Anas.`, 'success');
     const todayStr = new Date().toISOString().split('T')[0];
     if (!progress.study_log) progress.study_log = {};
     if (!progress.study_log[todayStr]) progress.study_log[todayStr] = { items_completed: 0, minutes: 0 };
