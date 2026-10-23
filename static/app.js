@@ -38,11 +38,27 @@
   const headerTodayGoal = document.getElementById('header-today-goal');
   const starredCountPill = document.getElementById('starred-count-pill');
 
-  // DOM Elements - Pomodoro
+  // DOM Elements - Focus Studio & Study Timer
   const pomoTimer = document.getElementById('pomo-timer');
   const pomoToggleBtn = document.getElementById('pomo-toggle-btn');
   const pomoResetBtn = document.getElementById('pomo-reset-btn');
-  const pomoModes = document.querySelectorAll('.pomo-mode');
+  const pomoModes = document.querySelectorAll('.focus-mode-btn');
+  const btnTimeMinus5 = document.getElementById('btn-time-minus-5');
+  const btnTimePlus5 = document.getElementById('btn-time-plus-5');
+  const btnCustomTime = document.getElementById('btn-custom-time');
+  const todayStudyMins = document.getElementById('today-study-mins');
+
+  // DOM Elements - Custom Time Modal
+  const customTimeModal = document.getElementById('custom-time-modal');
+  const customTimeCloseBtn = document.getElementById('custom-time-close-btn');
+  const btnCancelCustomTime = document.getElementById('btn-cancel-custom-time');
+  const btnApplyCustomTime = document.getElementById('btn-apply-custom-time');
+  const inputCustomMinutes = document.getElementById('input-custom-minutes');
+  const btnStepMinus10 = document.getElementById('btn-step-minus-10');
+  const btnStepMinus5 = document.getElementById('btn-step-minus-5');
+  const btnStepPlus5 = document.getElementById('btn-step-plus-5');
+  const btnStepPlus10 = document.getElementById('btn-step-plus-10');
+  const chipPresets = document.querySelectorAll('.chip-preset');
 
   // DOM Elements - Sidebar
   const tabViewDays = document.getElementById('tab-view-days');
@@ -315,6 +331,9 @@
     const doneToday = todayLog ? todayLog.items_completed : 0;
     const target = progress.daily_target || 5;
     if (headerTodayGoal) headerTodayGoal.textContent = `${doneToday} / ${target}`;
+
+    const todayMins = todayLog ? (todayLog.minutes || 0) : 0;
+    if (todayStudyMins) todayStudyMins.textContent = `${todayMins}m`;
 
     const starCount = Object.keys(progress.starred_items || {}).length;
     if (starredCountPill) starredCountPill.textContent = starCount;
@@ -663,37 +682,71 @@
 
       const numLabel = item.lecture_num !== null ? `#${String(item.lecture_num).padStart(2, '0')}` : `#${idx + 1}`;
 
-      let typeLabel = 'Video';
-      if (item.type === 'notebook') typeLabel = 'Jupyter';
-      else if (item.type === 'pdf') typeLabel = 'PDF Guide';
-      else if (item.type === 'dataset') typeLabel = 'Dataset';
-      else if (item.type === 'code') typeLabel = 'Code';
+      let typeBadgeClass = 'video';
+      let typeLabel = '4K Master Video';
+      if (item.type === 'notebook') {
+        typeBadgeClass = 'notebook';
+        typeLabel = 'Jupyter Lab';
+      } else if (item.type === 'pdf') {
+        typeBadgeClass = 'pdf';
+        typeLabel = 'Exam Guide';
+      } else if (item.type === 'dataset') {
+        typeBadgeClass = 'dataset';
+        typeLabel = 'Dataset';
+      } else if (item.type === 'code') {
+        typeBadgeClass = 'code';
+        typeLabel = 'Code Repo';
+      }
 
       const durText = item.duration ? `⏱️ ${item.duration}` : `${item.size_mb} MB`;
 
+      // Check for saved playback position to show real LMS resume bar
+      const playback = progress.playback_positions && progress.playback_positions[item.id];
+      let resumeSnippet = '';
+      if (playback && playback.current_time > 15 && playback.duration > 0) {
+        const resumePct = Math.min(100, Math.round((playback.current_time / playback.duration) * 100));
+        resumeSnippet = `
+          <div class="card-resume-strip" title="Resume from last playback session">
+            <div class="card-resume-track">
+              <div class="card-resume-fill" style="width: ${resumePct}%"></div>
+            </div>
+            <span class="card-resume-caption">Resume at ${formatSeconds(playback.current_time)} (${resumePct}%)</span>
+          </div>
+        `;
+      }
+
       card.innerHTML = `
         <div class="card-left-group">
-          <label class="huge-checkbox" title="Mark complete">
+          <label class="luxury-checkbox" title="${isCompleted ? 'Mark uncompleted' : 'Mark completed'}">
             <input type="checkbox" ${isCompleted ? 'checked' : ''}>
-            <span class="huge-check-box"></span>
+            <span class="luxury-check-marker">
+              <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
+                <path d="M1 5L4.5 8.5L11 1.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
           </label>
 
-          <div class="lecture-number-pill">${numLabel}</div>
+          <div class="lecture-seq-pill ${typeBadgeClass}">${numLabel}</div>
 
           <div class="lecture-text-col">
-            <span class="lecture-name">${item.clean_title}</span>
-            <div class="lecture-tags-row">
-              <span class="badge-duration">${durText}</span>
-              <span>•</span>
-              <span class="badge-type">${typeLabel}</span>
-              <span>•</span>
-              <span style="font-family: var(--font-mono); font-size: 11px;">${item.size_mb} MB</span>
+            <div class="lecture-title-row">
+              <span class="lecture-name">${item.clean_title}</span>
             </div>
+            <div class="lecture-tags-row">
+              <span class="format-badge ${typeBadgeClass}">${typeLabel}</span>
+              ${item.duration ? `<span class="badge-duration">${item.duration}</span>` : ''}
+              <span class="badge-filesize">${item.size_mb} MB</span>
+              <span class="badge-res">HD 1080p</span>
+            </div>
+            ${resumeSnippet}
           </div>
         </div>
 
         <div class="card-actions-group">
-          <button class="btn-star-mark ${isStarred ? 'active' : ''}" title="Star for revision">⭐</button>
+          <button class="btn-star-mark ${isStarred ? 'active' : ''}" title="Flag for Starred Exam Revision">
+            <span class="star-icon">★</span>
+            <span class="star-text">Revision</span>
+          </button>
 
           ${item.type === 'video' ? `
             <button class="btn-watch-primary" title="Watch directly in theater player">
@@ -1034,8 +1087,60 @@
   }
 
   // -------------------------------------------------------------
-  // Pomodoro Focus Timer
+  // Focus Studio & Study Engine
   // -------------------------------------------------------------
+  function playStudyChime() {
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx();
+      const now = ctx.currentTime;
+      // Executive dual-tone bell chime: D5 (587.33Hz) -> A5 (880Hz)
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(587.33, now);
+      osc.frequency.exponentialRampToValueAtTime(880, now + 0.28);
+      gain.gain.setValueAtTime(0.25, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 1.3);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 1.3);
+    } catch (e) {}
+  }
+
+  function adjustPomoMinutes(deltaMins) {
+    const deltaSecs = deltaMins * 60;
+    pomoRemaining = Math.max(60, pomoRemaining + deltaSecs);
+    pomoDuration = Math.max(60, pomoDuration + deltaSecs);
+    pomoModeMins = Math.max(1, Math.round(pomoDuration / 60));
+    renderPomoDisplay();
+    toast(`⏱️ Timer ${deltaMins > 0 ? '+' : ''}${deltaMins}m adjusted (${Math.round(pomoRemaining / 60)}m left)`, 'info');
+  }
+
+  function setCustomPomoDuration(mins) {
+    mins = Math.max(1, Math.min(360, parseInt(mins, 10) || 25));
+    pomoModeMins = mins;
+    pomoDuration = mins * 60;
+    pomoRemaining = pomoDuration;
+    renderPomoDisplay();
+
+    // Update preset button highlights
+    pomoModes.forEach(btn => {
+      const bMins = parseInt(btn.dataset.mins, 10);
+      btn.classList.toggle('active', bMins === mins);
+    });
+
+    if (btnCustomTime) {
+      const isStandard = [15, 25, 45, 60, 90].includes(mins);
+      btnCustomTime.classList.toggle('active', !isStandard);
+      btnCustomTime.textContent = !isStandard ? `${mins}m` : '⏱️ Custom';
+    }
+
+    toast(`Focus session configured to ${mins} minutes! 🚀`, 'success');
+  }
+
   function startPomo() {
     if (pomoRunning) return;
     pomoRunning = true;
@@ -1086,7 +1191,8 @@
   }
 
   async function finishPomo() {
-    toast(`⏰ Focus session finished! Great study momentum, dj.`, 'success');
+    playStudyChime();
+    toast(`🏆 Focus session finished! Logged ${pomoModeMins}m study momentum, dj.`, 'success');
     const todayStr = new Date().toISOString().split('T')[0];
     if (!progress.study_log) progress.study_log = {};
     if (!progress.study_log[todayStr]) progress.study_log[todayStr] = { items_completed: 0, minutes: 0 };
@@ -1394,15 +1500,79 @@
       pomoResetBtn.addEventListener('click', resetPomo);
     }
 
+    if (btnTimeMinus5) {
+      btnTimeMinus5.addEventListener('click', () => adjustPomoMinutes(-5));
+    }
+
+    if (btnTimePlus5) {
+      btnTimePlus5.addEventListener('click', () => adjustPomoMinutes(5));
+    }
+
     pomoModes.forEach(btn => {
       btn.addEventListener('click', () => {
-        pomoModes.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        pomoModeMins = parseInt(btn.dataset.mins, 10);
-        pomoDuration = pomoModeMins * 60;
-        resetPomo();
+        const mins = parseInt(btn.dataset.mins, 10);
+        if (mins) {
+          setCustomPomoDuration(mins);
+          resetPomo();
+        }
       });
     });
+
+    const openCustomTimeDialog = () => {
+      if (customTimeModal) {
+        customTimeModal.style.display = 'flex';
+        if (inputCustomMinutes) inputCustomMinutes.value = pomoModeMins;
+      }
+    };
+
+    if (btnCustomTime) btnCustomTime.addEventListener('click', openCustomTimeDialog);
+    if (pomoTimer) pomoTimer.addEventListener('click', openCustomTimeDialog);
+
+    if (btnStepMinus10) {
+      btnStepMinus10.addEventListener('click', () => {
+        if (inputCustomMinutes) inputCustomMinutes.value = Math.max(1, (parseInt(inputCustomMinutes.value, 10) || 25) - 10);
+      });
+    }
+    if (btnStepMinus5) {
+      btnStepMinus5.addEventListener('click', () => {
+        if (inputCustomMinutes) inputCustomMinutes.value = Math.max(1, (parseInt(inputCustomMinutes.value, 10) || 25) - 5);
+      });
+    }
+    if (btnStepPlus5) {
+      btnStepPlus5.addEventListener('click', () => {
+        if (inputCustomMinutes) inputCustomMinutes.value = Math.min(360, (parseInt(inputCustomMinutes.value, 10) || 25) + 5);
+      });
+    }
+    if (btnStepPlus10) {
+      btnStepPlus10.addEventListener('click', () => {
+        if (inputCustomMinutes) inputCustomMinutes.value = Math.min(360, (parseInt(inputCustomMinutes.value, 10) || 25) + 10);
+      });
+    }
+
+    chipPresets.forEach(chip => {
+      chip.addEventListener('click', () => {
+        if (inputCustomMinutes) inputCustomMinutes.value = chip.dataset.min;
+      });
+    });
+
+    if (btnApplyCustomTime) {
+      btnApplyCustomTime.addEventListener('click', () => {
+        const mins = parseInt(inputCustomMinutes.value, 10) || 25;
+        setCustomPomoDuration(mins);
+        resetPomo();
+        if (customTimeModal) customTimeModal.style.display = 'none';
+      });
+    }
+    if (btnCancelCustomTime) {
+      btnCancelCustomTime.addEventListener('click', () => {
+        if (customTimeModal) customTimeModal.style.display = 'none';
+      });
+    }
+    if (customTimeCloseBtn) {
+      customTimeCloseBtn.addEventListener('click', () => {
+        if (customTimeModal) customTimeModal.style.display = 'none';
+      });
+    }
 
     speedBtns.forEach(btn => {
       btn.addEventListener('click', () => {
@@ -1552,6 +1722,7 @@
         if (starredModal) starredModal.style.display = 'none';
         if (roadmapModal) roadmapModal.style.display = 'none';
         if (settingsModal) settingsModal.style.display = 'none';
+        if (customTimeModal) customTimeModal.style.display = 'none';
       }
 
       if (videoTheater && videoTheater.style.display === 'flex' && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {

@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=2.2">
+  <link rel="stylesheet" href="style.css?v=3.0">
 </head>
 <body>
   <div class="ambient-glow glow-1"></div>
@@ -15,21 +15,26 @@
 
   <div class="app-layout">
     
-    <!-- COMPACT TOP HEADER -->
+    <!-- EXECUTIVE TOP NAVIGATION -->
     <header class="top-nav">
       <div class="nav-brand-section">
-        <div class="brand-avatar">AI</div>
+        <div class="brand-avatar">
+          <span class="brand-symbol">◈</span>
+        </div>
         <div class="brand-text">
-          <div class="brand-name">PRIME AI/ML HUB</div>
-          <div class="brand-owner">dj's Personal Mission Control</div>
+          <div class="brand-title-row">
+            <span class="brand-name">PRIME AI/ML MASTERCLASS</span>
+            <span class="brand-badge-pro">PRO ENROLLED</span>
+          </div>
+          <div class="brand-owner">Student: <strong>dj</strong> • 62-Day AI Engineer Cohort</div>
         </div>
       </div>
 
-      <!-- Quick Metrics -->
+      <!-- Syllabus Progress & Study Metrics -->
       <div class="header-stats">
-        <div class="stat-pill" title="Overall Course Progress">
+        <div class="stat-pill" title="Overall Curriculum Completion">
           <div class="mini-progress-ring">
-            <svg width="32" height="32" viewBox="0 0 36 36">
+            <svg width="34" height="34" viewBox="0 0 36 36">
               <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
               <path id="header-ring" class="circle-prog" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
             </svg>
@@ -37,20 +42,20 @@
           </div>
           <div class="stat-meta">
             <span id="header-videos-done" class="stat-value">0 / 818</span>
-            <span class="stat-sub">Videos Done</span>
+            <span class="stat-sub">Syllabus Done</span>
           </div>
         </div>
 
-        <div class="stat-pill" title="Consecutive daily study streak">
-          <span class="fire-emoji">🔥</span>
+        <div class="stat-pill" title="Daily study streak — consistency builds mastery">
+          <span class="stat-icon-glow">🔥</span>
           <div class="stat-meta">
             <span id="header-streak" class="stat-value">1 Day</span>
             <span class="stat-sub">Streak</span>
           </div>
         </div>
 
-        <div class="stat-pill" title="Today's goal">
-          <span class="goal-emoji">🎯</span>
+        <div class="stat-pill" title="Today's goal pace">
+          <span class="stat-icon-glow">🎯</span>
           <div class="stat-meta">
             <span id="header-today-goal" class="stat-value">0 / 5</span>
             <span class="stat-sub">Today's Target</span>
@@ -58,24 +63,51 @@
         </div>
       </div>
 
-      <!-- Pomodoro Widget -->
-      <div class="nav-pomodoro">
-        <div class="pomo-modes">
-          <button class="pomo-mode active" data-mins="25">25m</button>
-          <button class="pomo-mode" data-mins="5">5m</button>
+      <!-- FOCUS STUDIO & STUDY TIMER (Interactive Time Controls & Extensions) -->
+      <div class="nav-focus-studio" id="nav-focus-studio">
+        <div class="focus-brand-tag">
+          <span class="focus-pulse-dot"></span>
+          <span class="focus-label">FOCUS STUDIO</span>
         </div>
-        <div class="pomo-display" id="pomo-timer">25:00</div>
-        <button class="pomo-btn play" id="pomo-toggle-btn" title="Start/Pause">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-            <polygon points="5 3 19 12 5 21 5 3"></polygon>
-          </svg>
-        </button>
-        <button class="pomo-btn reset" id="pomo-reset-btn" title="Reset">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
-            <path d="M3 3v5h5"></path>
-          </svg>
-        </button>
+
+        <!-- Presets -->
+        <div class="focus-presets" id="pomo-modes">
+          <button class="focus-mode-btn" data-mins="15" title="15 Min Focus Sprint">15m</button>
+          <button class="focus-mode-btn active" data-mins="25" title="25 Min Standard Pomodoro">25m</button>
+          <button class="focus-mode-btn" data-mins="45" title="45 Min Deep Work Session">45m</button>
+          <button class="focus-mode-btn" data-mins="60" title="60 Min Intensive Power Block">60m</button>
+          <button class="focus-mode-btn" data-mins="90" title="90 Min Flow State Block">90m</button>
+          <button class="focus-mode-btn custom" id="btn-custom-time" title="Enter Custom Minutes">⏱️ Custom</button>
+        </div>
+
+        <!-- Interactive Adjustments: -5m, Time Display, +5m -->
+        <div class="focus-clock-cluster">
+          <button class="focus-adjust-btn" id="btn-time-minus-5" title="Subtract 5 Minutes (-5m)">-5m</button>
+          <div class="focus-timer-text" id="pomo-timer" title="Click to set custom duration">25:00</div>
+          <button class="focus-adjust-btn highlight" id="btn-time-plus-5" title="Add 5 Minutes (+5m)">+5m</button>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="focus-actions">
+          <button class="focus-action-btn play" id="pomo-toggle-btn" title="Start/Pause Focus (Space)">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+          </button>
+          <button class="focus-action-btn reset" id="pomo-reset-btn" title="Reset Timer">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+              <path d="M3 3v5h5"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Today Focused Minutes Metric -->
+        <div class="focus-today-badge" title="Focused study time logged today">
+          <span class="focus-today-icon">⚡</span>
+          <span class="focus-today-val" id="today-study-mins">0m</span>
+          <span class="focus-today-lbl">today</span>
+        </div>
       </div>
 
       <!-- Actions -->
@@ -416,6 +448,43 @@
       </div>
     </div>
 
+    <!-- CUSTOM FOCUS DURATION MODAL -->
+    <div class="overlay-modal" id="custom-time-modal" style="display: none;">
+      <div class="standard-modal-container compact">
+        <div class="standard-modal-head">
+          <div class="title-with-icon">
+            <span>⏱️</span>
+            <h3>Set Custom Study Session</h3>
+          </div>
+          <button class="overlay-close" id="custom-time-close-btn">&times;</button>
+        </div>
+        <div class="standard-modal-body">
+          <p class="modal-lead">Configure your desired study focus duration in minutes.</p>
+          <div class="custom-time-input-wrap">
+            <div class="time-stepper">
+              <button class="step-btn" id="btn-step-minus-10">-10m</button>
+              <button class="step-btn" id="btn-step-minus-5">-5m</button>
+              <input type="number" id="input-custom-minutes" min="1" max="360" value="30" step="5">
+              <span class="step-unit">minutes</span>
+              <button class="step-btn" id="btn-step-plus-5">+5m</button>
+              <button class="step-btn" id="btn-step-plus-10">+10m</button>
+            </div>
+            <div class="quick-preset-chips">
+              <button class="chip-preset" data-min="20">20 min</button>
+              <button class="chip-preset" data-min="30">30 min</button>
+              <button class="chip-preset" data-min="50">50 min</button>
+              <button class="chip-preset" data-min="75">75 min</button>
+              <button class="chip-preset" data-min="120">2 hours</button>
+            </div>
+          </div>
+          <div class="modal-footer-actions">
+            <button class="btn-clean" id="btn-cancel-custom-time">Cancel</button>
+            <button class="btn-primary-gradient" id="btn-apply-custom-time">Start Study Session</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- SETTINGS & BACKUP MODAL -->
     <div class="overlay-modal" id="settings-modal" style="display: none;">
       <div class="standard-modal-container">
@@ -459,6 +528,6 @@
 
   </div>
 
-  <script src="app.js?v=2.2"></script>
+  <script src="app.js?v=3.0"></script>
 </body>
 </html>
