@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prime AI/ML Course Tracker | dj's Learning Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=4.5">
+</head>
+<body>
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+
+  <div class="app-layout">
+    
+    <!-- EXECUTIVE TOP NAVIGATION -->
+    <header class="top-nav">
+      <div class="nav-brand-section">
+        <div class="brand-avatar apna-avatar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+            <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <div class="brand-title-row">
+            <span class="brand-name apna-brand">Apna College</span>
+            <span class="brand-badge-pro">DELTA • AI/ML</span>
+          </div>
+          <div class="brand-owner"><span class="enrolled-dot"></span> Student: <strong>dj</strong></div>
+        </div>
+      </div>
+
+      <!-- CENTER: SLEEK UNIFIED STUDY & FOCUS HUB -->
+      <div class="nav-center-hub">
+        
+        <!-- Syllabus Progress Pill -->
+        <div class="curriculum-progress-pill" id="btn-header-progress" title="Overall Curriculum Completion (Click to open Roadmap)">
+          <div class="mini-progress-ring">
+            <svg width="28" height="28" viewBox="0 0 36 36">
+              <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+              <path id="header-ring" class="circle-prog" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+            </svg>
+            <span id="header-percent" class="ring-caption">0%</span>
+          </div>
+          <div class="curriculum-progress-info">
+            <span id="header-videos-done" class="prog-nums">0 / 818</span>
+            <span class="prog-lbl">Syllabus</span>
+          </div>
+        </div>
+
+        <div class="hub-divider"></div>
+
+        <!-- Focus Timer Pill & Quick Extension Controls -->
+        <div class="nav-focus-pill" id="nav-focus-studio">
+          <div class="focus-timer-cluster">
+            <button class="focus-adjust-btn" id="btn-time-minus-5" title="Subtract 5 Minutes (-5m)">-5m</button>
+            <div class="focus-timer-text" id="pomo-timer" title="Click to configure custom focus duration">25:00</div>
+            <button class="focus-adjust-btn highlight" id="btn-time-plus-5" title="Add 5 Minutes (+5m)">+5m</button>
+          </div>
+
+          <button class="focus-action-btn play" id="pomo-toggle-btn" title="Start / Pause Focus (Space)">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+          </button>
+
+          <button class="focus-action-btn reset" id="pomo-reset-btn" title="Reset Timer">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+              <path d="M3 3v5h5"></path>
+            </svg>
+          </button>
+
+          <!-- Dropdown Trigger for Presets & History -->
+          <div class="focus-presets-wrapper">
+            <button class="focus-presets-trigger" id="btn-toggle-focus-dropdown" title="Focus Presets & Modes">
+              <span class="preset-trigger-icon">⏱️</span>
+              <span class="preset-trigger-txt">Presets</span>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+
+            <!-- Floating Presets Popover -->
+            <div class="focus-dropdown-popover" id="focus-dropdown-popover" style="display: none;">
+              <div class="popover-header">
+                <span class="popover-title">Focus Presets</span>
+                <div class="today-focus-tag" title="Study time logged today">
+                  <span>⚡</span>
+                  <span id="today-study-mins">0m</span> today
+                </div>
+              </div>
+              <div class="popover-presets-grid" id="pomo-modes">
+                <button class="focus-mode-btn" data-mins="15">15m Sprint</button>
+                <button class="focus-mode-btn active" data-mins="25">25m Standard</button>
+                <button class="focus-mode-btn" data-mins="45">45m Deep Work</button>
+                <button class="focus-mode-btn" data-mins="60">60m Power</button>
+                <button class="focus-mode-btn" data-mins="90">90m Flow State</button>
+                <button class="focus-mode-btn custom" id="btn-custom-time">⏱️ Custom Time...</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Actions -->
+      <div class="header-actions">
+        <button class="header-btn" id="btn-open-search" title="Search Lessons (Ctrl + K)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <span>Search</span>
+          <kbd>Ctrl K</kbd>
+        </button>
+
+        <button class="header-btn" id="btn-open-starred" title="Starred Revision Lessons">
+          <span>⭐</span>
+          <span>Starred</span>
+          <span class="counter-badge" id="starred-count-pill">0</span>
+        </button>
+
+        <button class="header-btn" id="btn-open-roadmap" title="Curriculum Roadmap">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"></line>
+            <line x1="12" y1="20" x2="12" y2="4"></line>
+            <line x1="6" y1="20" x2="6" y2="14"></line>
+          </svg>
+          <span>Roadmap</span>
+        </button>
+
+        <button class="header-btn" id="btn-open-folder" title="Open D:\AI-ML Prime Course in Windows Explorer">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+          </svg>
+          <span>Folder</span>
+        </button>
+
+        <button class="header-btn theme-toggle-btn" id="btn-toggle-theme" title="Toggle Theme (White ☀️ / Dark 🌙)">
+          <span class="theme-icon" id="theme-icon">☀️</span>
+          <span class="theme-label" id="theme-label">Light</span>
+        </button>
+
+        <button class="header-btn icon-only" id="btn-open-settings" title="Settings & Backup">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- MAIN BODY -->
+    <div class="main-body">
+      
+      <!-- SIDEBAR: DUAL VIEW (ALL 62 DAYS vs BY PHASE) -->
+      <aside class="sidebar">
+        
+        <!-- Student Dashboard Strip (Streak & Target) -->
+        <div class="sidebar-student-card">
+          <div class="student-metric-item" title="Consecutive daily study streak">
+            <span class="metric-icon">🔥</span>
+            <div class="metric-info">
+              <span class="metric-val" id="header-streak">1 Day</span>
+              <span class="metric-lbl">Daily Streak</span>
+            </div>
+          </div>
+          <div class="metric-divider"></div>
+          <div class="student-metric-item" title="Lessons finished today towards daily target">
+            <span class="metric-icon">🎯</span>
+            <div class="metric-info">
+              <span class="metric-val" id="header-today-goal">0 / 5</span>
+              <span class="metric-lbl">Daily Target</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-top">
+          <!-- View Switcher -->
+          <div class="sidebar-view-toggle">
+            <button class="view-toggle-btn active" id="tab-view-days">📅 All 62 Days</button>
+            <button class="view-toggle-btn" id="tab-view-phases">📚 By Phase (13)</button>
+          </div>
+
+          <div class="sidebar-search">
+            <input type="text" id="sidebar-search-box" placeholder="Quick find Day or topic...">
+          </div>
+        </div>
+
+        <!-- SCROLLABLE LIST OF DAYS & PHASES -->
+        <div class="sidebar-scroll-area" id="sidebar-scroll-area">
+          <div id="sidebar-content-root">
+            <!-- Rendered by JS: either All 62 Days directly or Phase accordions -->
+          </div>
+        </div>
+
+        <!-- Sticky Exam Vault Link -->
+        <div class="sidebar-bottom-link" id="sidebar-exam-vault-btn">
+          <div class="exam-link-inner">
+            <span class="exam-icon">📝</span>
+            <div class="exam-link-text">
+              <span class="exam-title">Final Exam & Question Banks</span>
+              <span class="exam-sub">8 Unit Notes & MCQs (D:\Final exam)</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- CENTER WORKSPACE (APNA COLLEGE CLASSROOM LAYOUT) -->
+      <main class="content-workspace" id="content-workspace">
+        
+        <!-- APNA COLLEGE EMBEDDED CLASSROOM VIDEO STAGE -->
+        <section class="apna-classroom-stage" id="classroom-stage">
+          <div class="apna-player-card">
+            
+            <!-- Video Top Meta & Speed Control -->
+            <div class="apna-player-topbar">
+              <div class="apna-lecture-meta">
+                <span class="apna-module-badge" id="stage-day-badge">DAY 01</span>
+                <h2 class="apna-lecture-title" id="stage-lecture-title">01. Course Objective</h2>
+                <span class="apna-duration-tag" id="stage-duration-tag">⏱️ 7m 17s</span>
+              </div>
+              
+              <div class="apna-player-tools">
+                <div class="apna-speed-selector">
+                  <span class="apna-speed-lbl">Speed:</span>
+                  <button class="stage-speed-btn" data-spd="0.75">0.75x</button>
+                  <button class="stage-speed-btn active" data-spd="1.0">1.0x</button>
+                  <button class="stage-speed-btn" data-spd="1.25">1.25x</button>
+                  <button class="stage-speed-btn" data-spd="1.5">1.5x</button>
+                  <button class="stage-speed-btn" data-spd="2.0">2.0x</button>
+                </div>
+                <button class="btn-apna-theater" id="btn-toggle-theater-expand" title="Cinema Theater Mode (F)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <polyline points="9 21 3 21 3 15"></polyline>
+                    <line x1="21" y1="3" x2="14" y2="10"></line>
+                    <line x1="3" y1="21" x2="10" y2="14"></line>
+                  </svg>
+                  <span>Theater</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Embedded 16:9 Cinema Player Screen -->
+            <div class="apna-video-screen" id="apna-video-screen">
+              <video id="stage-video" controls preload="metadata" playsinline></video>
+            </div>
+
+            <!-- APNA COLLEGE LECTURE ACTION CONSOLE -->
+            <div class="apna-action-console">
+              <div class="console-nav-cluster">
+                <button class="apna-btn-nav" id="btn-stage-prev-lecture" title="Previous Lecture">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                  </svg>
+                  <span>Previous Lecture</span>
+                </button>
+
+                <!-- APNA COLLEGE SIGNATURE: PRIMARY "MARK AS COMPLETED" -->
+                <button class="apna-btn-complete" id="btn-stage-mark-complete">
+                  <span class="complete-icon">✓</span>
+                  <span class="complete-text" id="stage-mark-label">Mark as Completed</span>
+                </button>
+
+                <button class="apna-btn-nav highlight" id="btn-stage-next-lecture" title="Next Lecture">
+                  <span>Next Lecture</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </button>
+              </div>
+
+              <div class="console-tools-cluster">
+                <button class="apna-tool-pill" id="stage-btn-star" title="Star for Revision Bank">
+                  <span class="star-glyph">★</span>
+                  <span>Revision</span>
+                </button>
+                <button class="apna-tool-pill" id="stage-btn-vlc" title="Open in VLC / Windows Player">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg>
+                  <span>Launch Laptop App</span>
+                </button>
+                <button class="apna-tool-pill" id="stage-btn-folder" title="Reveal in Windows Explorer">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                  </svg>
+                  <span>Folder</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- CURRENT DAY OVERVIEW & BREADCRUMBS -->
+        <section class="current-day-panel">
+          <div class="day-panel-header">
+            <div class="day-panel-title-col">
+              <div class="day-breadcrumbs">
+                <span class="crumb-apna">APNA COLLEGE</span>
+                <span class="crumb-divider">/</span>
+                <span class="crumb-phase" id="day-phase-name">Phase 1: Python Core & OOP</span>
+                <span class="crumb-divider">/</span>
+                <span class="crumb-day" id="day-number-label">DAY 01</span>
+              </div>
+              <h1 class="day-main-heading" id="day-heading">DAY 01 • Course Objective</h1>
+              <p class="day-overview-text" id="day-overview">Directly indexed from D:\AI-ML Prime Course\DAY 01</p>
+            </div>
+
+            <!-- Day Navigation & Actions -->
+            <div class="day-panel-actions">
+              <div class="day-nav-arrows">
+                <button class="day-nav-arrow-btn" id="btn-prev-day" title="Previous Day">◀ Prev Day</button>
+                <button class="day-nav-arrow-btn highlight" id="btn-next-day" title="Next Day">Next Day ▶</button>
+              </div>
+
+              <button class="btn-clean" id="btn-open-day-folder" title="Open Day folder in Windows Explorer">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                </svg>
+                <span>Folder</span>
+              </button>
+
+              <button class="btn-primary-gradient" id="btn-toggle-day-complete">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span id="btn-toggle-day-text">Mark All Completed</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Progress summary strip -->
+          <div class="day-progress-strip">
+            <div class="prog-bar-container">
+              <div class="prog-bar-label">
+                <span>Day Completion: <strong id="day-pct-label">0%</strong></span>
+                <span id="day-count-label">0 / 7 Completed</span>
+              </div>
+              <div class="prog-track">
+                <div class="prog-fill" id="day-prog-fill" style="width: 0%;"></div>
+              </div>
+            </div>
+
+            <div class="day-quick-stats">
+              <span class="stat-tag" id="day-stat-vids">📹 6 Videos</span>
+              <span class="stat-tag" id="day-stat-duration">⏱️ ~31m</span>
+              <span class="stat-tag" id="day-stat-books">📓 0 Notebooks</span>
+              <span class="stat-tag" id="day-stat-size">💾 361 MB</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- DAY NOTES ACCORDION -->
+        <section class="day-notes-wrapper">
+          <div class="notes-bar-toggle" id="notes-bar-toggle">
+            <div class="notes-bar-left">
+              <span class="notes-icon">📝</span>
+              <span class="notes-title">Personal Study Notes & Key Formulas for this Day</span>
+              <span class="notes-tag" id="notes-active-tag"></span>
+            </div>
+            <div class="notes-bar-right">
+              <span class="toggle-arrow" id="notes-arrow">▼</span>
+            </div>
+          </div>
+          <div class="notes-content-area" id="notes-content-area" style="display: none;">
+            <div class="notes-quick-tags">
+              <button class="quick-tag-btn" data-insert="[💡 Key Concept]: ">+ Key Concept</button>
+              <button class="quick-tag-btn" data-insert="[🎯 Interview Q]: ">+ Interview Q</button>
+              <button class="quick-tag-btn" data-insert="[⚠️ Caution]: ">+ Caution</button>
+              <button class="quick-tag-btn" data-insert="[📌 Code Snippet]: ">+ Code Snippet</button>
+            </div>
+            <textarea id="day-notes-input" placeholder="Jot down notes, formulas, interview questions, or code snippets for this day... (Auto-saves continuously)"></textarea>
+            <div class="notes-bottom-row">
+              <span class="notes-auto-msg" id="notes-status-msg">Auto-saves on typing</span>
+              <button class="btn-save-note" id="btn-save-note">Save Notes</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- LESSON FILTER TABS -->
+        <section class="lessons-header-filter">
+          <div class="filter-pills">
+            <button class="tab-pill active" data-type="all">All Lessons (<span id="count-all">0</span>)</button>
+            <button class="tab-pill" data-type="video">📹 Videos (<span id="count-video">0</span>)</button>
+            <button class="tab-pill" data-type="notebook">📓 Notebooks (<span id="count-notebook">0</span>)</button>
+            <button class="tab-pill" data-type="pdf">📑 PDFs (<span id="count-pdf">0</span>)</button>
+            <button class="tab-pill" data-type="starred">⭐ Starred (<span id="count-starred">0</span>)</button>
+          </div>
+          <div class="lesson-search-box">
+            <input type="text" id="lesson-local-search" placeholder="Filter this day's lessons...">
+          </div>
+        </section>
+
+        <!-- LESSONS CARDS LIST -->
+        <section class="lessons-stack" id="lessons-cards-stack">
+          <!-- Populated dynamically -->
+        </section>
+
+        <!-- BOTTOM DAY ADVANCE BANNER -->
+        <section class="day-advance-card" id="day-advance-card">
+          <div class="advance-card-content">
+            <div class="advance-card-text">
+              <span class="advance-label">UP NEXT IN CURRICULUM</span>
+              <h3 class="advance-title" id="advance-next-title">Day 02 • Our First Program</h3>
+              <p class="advance-meta" id="advance-next-meta">18 Lectures • ~1h 15m</p>
+            </div>
+            <button class="advance-btn" id="btn-advance-next-day">
+              <span>Go to Next Day</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <!-- THEATER VIDEO PLAYER MODAL -->
+    <div class="theater-modal" id="video-theater" style="display: none;">
+      <div class="theater-card">
+        <div class="theater-header">
+          <div class="theater-title-group">
+            <span class="theater-badge" id="theater-day-badge">DAY 01</span>
+            <h3 class="theater-heading" id="theater-title">Lecture Title</h3>
+          </div>
+          <div class="theater-actions">
+            <button class="btn-theater-action" id="theater-vlc-btn" title="Open in VLC / Laptop Media Player">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+              <span>Open in Laptop Player</span>
+            </button>
+            <button class="btn-theater-close" id="theater-close-btn" title="Close (Esc)">&times;</button>
+          </div>
+        </div>
+
+        <div class="theater-screen">
+          <video id="theater-video" controls preload="metadata" playsinline></video>
+        </div>
+
+        <div class="theater-footer">
+          <div class="theater-speeds">
+            <span class="speed-label">Speed:</span>
+            <button class="speed-btn" data-spd="0.75">0.75x</button>
+            <button class="speed-btn active" data-spd="1.0">1.0x</button>
+            <button class="speed-btn" data-spd="1.25">1.25x</button>
+            <button class="speed-btn" data-spd="1.5">1.5x</button>
+            <button class="speed-btn" data-spd="1.75">1.75x</button>
+            <button class="speed-btn" data-spd="2.0">2.0x</button>
+          </div>
+
+          <div class="theater-next">
+            <button class="btn-complete-next" id="theater-next-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              <span>Mark Complete & Play Next</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GLOBAL SEARCH MODAL (Ctrl + K) -->
+    <div class="overlay-modal" id="search-modal" style="display: none;">
+      <div class="search-modal-container">
+        <div class="search-modal-head">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="global-search-field" placeholder="Search any topic, e.g. 'Linear Regression', 'CNN', 'Docker', 'OOP'..." autocomplete="off">
+          <button class="overlay-close" id="search-close-btn">&times;</button>
+        </div>
+        <div class="search-modal-results" id="search-modal-results">
+          <div class="empty-hint">Type keywords to search across all 62 Days and 818+ lessons...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STARRED REVISION MODAL -->
+    <div class="overlay-modal" id="starred-modal" style="display: none;">
+      <div class="standard-modal-container">
+        <div class="standard-modal-head">
+          <div class="title-with-icon">
+            <span>⭐</span>
+            <h3>Starred Revision Bank</h3>
+          </div>
+          <button class="overlay-close" id="starred-close-btn">&times;</button>
+        </div>
+        <div class="standard-modal-body">
+          <p class="modal-lead">Lessons and formulas flagged for your interview and exam revision.</p>
+          <div class="starred-grid" id="starred-items-box">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROADMAP & ANALYTICS MODAL -->
+    <div class="overlay-modal" id="roadmap-modal" style="display: none;">
+      <div class="standard-modal-container wide">
+        <div class="standard-modal-head">
+          <h3>Prime AI/ML Curriculum Roadmap & Estimates</h3>
+          <button class="overlay-close" id="roadmap-close-btn">&times;</button>
+        </div>
+        <div class="standard-modal-body">
+          <div class="kpi-grid">
+            <div class="kpi-card">
+              <span class="kpi-value" id="kpi-videos-done">0 / 818</span>
+              <span class="kpi-title">Videos Completed</span>
+            </div>
+            <div class="kpi-card">
+              <span class="kpi-value" id="kpi-days-done">0 / 62</span>
+              <span class="kpi-title">Days Completed</span>
+            </div>
+            <div class="kpi-card">
+              <span class="kpi-value" id="kpi-hours-total">117.1h</span>
+              <span class="kpi-title">Total Course Material</span>
+            </div>
+            <div class="kpi-card">
+              <span class="kpi-value" id="kpi-estimated-date">Calculating...</span>
+              <span class="kpi-title">Projected Completion</span>
+            </div>
+          </div>
+
+          <h4 class="subhead-title">Phase-by-Phase Progress</h4>
+          <div class="roadmap-phases-grid" id="roadmap-phases-grid">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CUSTOM FOCUS DURATION MODAL -->
+    <div class="overlay-modal" id="custom-time-modal" style="display: none;">
+      <div class="standard-modal-container compact">
+        <div class="standard-modal-head">
+          <div class="title-with-icon">
+            <span>⏱️</span>
+            <h3>Set Custom Study Session</h3>
+          </div>
+          <button class="overlay-close" id="custom-time-close-btn">&times;</button>
+        </div>
+        <div class="standard-modal-body">
+          <p class="modal-lead">Configure your desired study focus duration in minutes.</p>
+          <div class="custom-time-input-wrap">
+            <div class="time-stepper">
+              <button class="step-btn" id="btn-step-minus-10">-10m</button>
+              <button class="step-btn" id="btn-step-minus-5">-5m</button>
+              <input type="number" id="input-custom-minutes" min="1" max="360" value="30" step="5">
+              <span class="step-unit">minutes</span>
+              <button class="step-btn" id="btn-step-plus-5">+5m</button>
+              <button class="step-btn" id="btn-step-plus-10">+10m</button>
+            </div>
+            <div class="quick-preset-chips">
+              <button class="chip-preset" data-min="20">20 min</button>
+              <button class="chip-preset" data-min="30">30 min</button>
+              <button class="chip-preset" data-min="50">50 min</button>
+              <button class="chip-preset" data-min="75">75 min</button>
+              <button class="chip-preset" data-min="120">2 hours</button>
+            </div>
+          </div>
+          <div class="modal-footer-actions">
+            <button class="btn-clean" id="btn-cancel-custom-time">Cancel</button>
+            <button class="btn-primary-gradient" id="btn-apply-custom-time">Start Study Session</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SETTINGS & BACKUP MODAL -->
+    <div class="overlay-modal" id="settings-modal" style="display: none;">
+      <div class="standard-modal-container">
+        <div class="standard-modal-head">
+          <h3>Preferences & Backup</h3>
+          <button class="overlay-close" id="settings-close-btn">&times;</button>
+        </div>
+        <div class="standard-modal-body">
+          <div class="config-row">
+            <label class="config-label">Daily Lesson Target</label>
+            <div class="config-inline">
+              <input type="number" id="setting-daily-target" min="1" max="50" value="5">
+              <button class="btn-simple" id="btn-save-target">Save Target</button>
+            </div>
+            <span class="config-help">Setting a comfortable daily target (e.g. 5 lectures/day) helps you complete the course in ~5-6 weeks.</span>
+          </div>
+
+          <div class="config-row">
+            <label class="config-label">Export Progress Backup</label>
+            <p class="config-desc">Save a JSON backup of all completed lessons, bookmarks, and study notes.</p>
+            <button class="btn-simple" id="btn-export-backup">📥 Download Backup JSON</button>
+          </div>
+
+          <div class="config-row">
+            <label class="config-label">Restore from Backup</label>
+            <p class="config-desc">Restore your saved progress from a JSON file.</p>
+            <input type="file" id="file-import-input" accept=".json" style="display: none;">
+            <button class="btn-simple secondary" id="btn-trigger-import">📤 Upload Backup JSON</button>
+          </div>
+
+          <div class="config-row">
+            <label class="config-label">Indexed Course Path</label>
+            <p class="config-path"><code>D:\AI-ML Prime Course</code></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOAST NOTIFICATIONS -->
+    <div class="toast-shelf" id="toast-shelf"></div>
+
+  </div>
+
+  <script src="app.js?v=4.5"></script>
+</body>
+</html>
