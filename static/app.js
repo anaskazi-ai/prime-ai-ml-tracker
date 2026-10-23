@@ -1083,6 +1083,20 @@
       toast('MKV video container detected. Launching in VLC / Windows player is recommended if browser codec is limited.', 'info');
     }
 
+    const staticOverlay = document.getElementById('stage-static-overlay');
+    const staticOverlayTitle = document.getElementById('stage-static-overlay-lecture-title');
+    const staticFilePath = document.getElementById('static-file-path');
+
+    if (isStaticMode) {
+      if (staticOverlay) {
+        staticOverlay.style.display = 'flex';
+        if (staticOverlayTitle) staticOverlayTitle.textContent = item.clean_title;
+        if (staticFilePath) staticFilePath.textContent = item.full_path;
+      }
+    } else {
+      if (staticOverlay) staticOverlay.style.display = 'none';
+    }
+
     if (stageVideo) {
       const streamUrl = `/api/stream?path=${encodeURIComponent(item.full_path)}`;
       if (!stageVideo.src.includes(encodeURIComponent(item.full_path))) {
@@ -1097,12 +1111,18 @@
       }
 
       stageVideo.onerror = () => {
-        if (isStaticMode) {
-          toast('📺 Video Streaming: Runs when host backend is active on your laptop.', 'info');
+        if (staticOverlay) {
+          staticOverlay.style.display = 'flex';
+          if (staticOverlayTitle) staticOverlayTitle.textContent = item.clean_title;
+          if (staticFilePath) staticFilePath.textContent = item.full_path;
         }
       };
 
-      if (autoPlay) {
+      stageVideo.onplaying = () => {
+        if (staticOverlay) staticOverlay.style.display = 'none';
+      };
+
+      if (autoPlay && !isStaticMode) {
         stageVideo.play().catch(() => {});
       }
 

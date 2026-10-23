@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=4.5">
+  <link rel="stylesheet" href="style.css?v=5.0">
 </head>
 <body>
   <div class="ambient-glow glow-1"></div>
@@ -250,6 +250,35 @@
             <!-- Embedded 16:9 Cinema Player Screen -->
             <div class="apna-video-screen" id="apna-video-screen">
               <video id="stage-video" controls preload="metadata" playsinline></video>
+
+              <!-- Static Cloud Host Overlay (When hosted on GitHub Pages) -->
+              <div class="stage-static-overlay" id="stage-static-overlay" style="display: none;">
+                <div class="static-overlay-card">
+                  <div class="static-overlay-badge">LOCAL MEDIA NOTIFICATION</div>
+                  <div class="static-overlay-icon">📹</div>
+                  <h3 class="static-overlay-title" id="stage-static-overlay-lecture-title">01. Our First Program</h3>
+                  <p class="static-overlay-text">
+                    This video is stored locally on your laptop:
+                  </p>
+                  <div class="static-file-path-chip" id="static-file-path">
+                    D:\AI-ML Prime Course\DAY 02\01. Our First Program.mp4
+                  </div>
+                  <p class="static-overlay-explainer">
+                    Public cloud websites (GitHub Pages) cannot read private laptop hard drives directly due to browser security.
+                  </p>
+                  <div class="static-overlay-actions">
+                    <a href="http://127.0.0.1:5000" class="btn-open-local-stream" target="_blank">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                      </svg>
+                      <span>Play Video in Laptop Mode (http://127.0.0.1:5000)</span>
+                    </a>
+                  </div>
+                  <div class="static-overlay-footer">
+                    <span>💡 Double-click <strong>Start_Tracker.bat</strong> on your laptop anytime to stream with full 4K speed!</span>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <!-- APNA COLLEGE LECTURE ACTION CONSOLE -->
@@ -622,6 +651,6 @@
 
   </div>
 
-  <script src="app.js?v=4.5"></script>
+  <script src="app.js?v=5.0"></script>
 </body>
 </html>
