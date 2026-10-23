@@ -120,6 +120,22 @@
   const countPdf = document.getElementById('count-pdf');
   const countStarred = document.getElementById('count-starred');
 
+  // DOM Elements - Apna College Classroom Stage
+  const classroomStage = document.getElementById('classroom-stage');
+  const stageDayBadge = document.getElementById('stage-day-badge');
+  const stageLectureTitle = document.getElementById('stage-lecture-title');
+  const stageDurationTag = document.getElementById('stage-duration-tag');
+  const stageSpeedBtns = document.querySelectorAll('.stage-speed-btn');
+  const btnToggleTheaterExpand = document.getElementById('btn-toggle-theater-expand');
+  const stageVideo = document.getElementById('stage-video');
+  const btnStagePrevLecture = document.getElementById('btn-stage-prev-lecture');
+  const btnStageMarkComplete = document.getElementById('btn-stage-mark-complete');
+  const stageMarkLabel = document.getElementById('stage-mark-label');
+  const btnStageNextLecture = document.getElementById('btn-stage-next-lecture');
+  const stageBtnStar = document.getElementById('stage-btn-star');
+  const stageBtnVlc = document.getElementById('stage-btn-vlc');
+  const stageBtnFolder = document.getElementById('stage-btn-folder');
+
   // Video Theater Modal
   const videoTheater = document.getElementById('video-theater');
   const theaterVideo = document.getElementById('theater-video');
@@ -672,6 +688,22 @@
     if (notesActiveTag) notesActiveTag.textContent = (dayNote && dayNote.content) ? 'Has Notes' : '';
     if (notesStatusMsg) notesStatusMsg.textContent = dayNote ? `Last saved: ${formatTimestamp(dayNote.updated_at)}` : 'Auto-saves on typing';
 
+    // Sync Apna College Embedded Classroom Stage
+    const dayVideos = day.items.filter(i => i.type === 'video');
+    if (dayVideos.length > 0) {
+      if (classroomStage) classroomStage.style.display = 'block';
+      const belongsToDay = currentPlayingItem && day.items.some(i => i.id === currentPlayingItem.id);
+      if (!belongsToDay) {
+        const firstUncompleted = dayVideos.find(v => !completedMap[v.id]) || dayVideos[0];
+        stageLecture(firstUncompleted, day, false);
+      } else {
+        updateStageCompleteBtn(currentPlayingItem.id);
+        updateStageStarBtn(currentPlayingItem.id);
+      }
+    } else {
+      if (classroomStage) classroomStage.style.display = 'none';
+    }
+
     renderLessonsStack(day);
   }
 
@@ -833,26 +865,41 @@
 
       lessonsCardsStack.appendChild(card);
     });
+
+    if (currentPlayingItem) {
+      highlightActiveLectureCard(currentPlayingItem.id);
+    }
   }
 
   // -------------------------------------------------------------
   // Lesson Actions (Complete, Star, Launch, Reveal)
   // -------------------------------------------------------------
   async function handleToggleItem(itemId, isDone, cardElem) {
+    if (cardElem) {
+      if (isDone) cardElem.classList.add('done');
+      else cardElem.classList.remove('done');
+      const chk = cardElem.querySelector('input[type="checkbox"]');
+      if (chk) chk.checked = isDone;
+    }
+
     if (isDone) {
-      cardElem.classList.add('done');
+      if (!progress.completed_items) progress.completed_items = {};
       progress.completed_items[itemId] = { completed: true, completed_at: new Date().toISOString() };
       const todayStr = new Date().toISOString().split('T')[0];
       if (!progress.study_log) progress.study_log = {};
       if (!progress.study_log[todayStr]) progress.study_log[todayStr] = { items_completed: 0, minutes: 0 };
       progress.study_log[todayStr].items_completed += 1;
     } else {
-      cardElem.classList.remove('done');
-      delete progress.completed_items[itemId];
+      if (progress.completed_items) delete progress.completed_items[itemId];
       const todayStr = new Date().toISOString().split('T')[0];
       if (progress.study_log && progress.study_log[todayStr] && progress.study_log[todayStr].items_completed > 0) {
         progress.study_log[todayStr].items_completed -= 1;
       }
+    }
+
+    // Keep stage mark complete button in sync if this item is currently on stage
+    if (currentPlayingItem && currentPlayingItem.id === itemId) {
+      updateStageCompleteBtn(itemId);
     }
 
     persistLocalProgress();
@@ -915,15 +962,20 @@
   }
 
   async function handleToggleStar(itemId, btnElem) {
-    const currentState = btnElem.classList.contains('active');
+    const currentState = btnElem ? btnElem.classList.contains('active') : !!(progress.starred_items && progress.starred_items[itemId]);
     const newState = !currentState;
-    btnElem.classList.toggle('active', newState);
+    if (btnElem) btnElem.classList.toggle('active', newState);
 
     if (newState) {
+      if (!progress.starred_items) progress.starred_items = {};
       progress.starred_items[itemId] = true;
       toast('Saved to Starred Revision Bank ⭐', 'success');
     } else {
-      delete progress.starred_items[itemId];
+      if (progress.starred_items) delete progress.starred_items[itemId];
+    }
+
+    if (currentPlayingItem && currentPlayingItem.id === itemId) {
+      updateStageStarBtn(itemId);
     }
 
     persistLocalProgress();
@@ -931,7 +983,7 @@
     updateTopMetrics();
     const day = catalog.days.find(d => d.day_id === activeDayId);
     if (day && countStarred) {
-      countStarred.textContent = day.items.filter(i => progress.starred_items[i.id]).length;
+      countStarred.textContent = day.items.filter(i => progress.starred_items && progress.starred_items[i.id]).length;
     }
 
     fetch('/api/progress/bookmark', {
@@ -1007,57 +1059,86 @@
   }
 
   // -------------------------------------------------------------
-  // Theater Video Player (Resume Timestamp & Next Queue)
+  // Apna College Classroom Stage & Video Engine
   // -------------------------------------------------------------
-  function openVideo(item, day) {
+  function stageLecture(item, day, autoPlay = true) {
+    if (!item) return;
     currentPlayingItem = item;
-    if (theaterDayBadge) theaterDayBadge.textContent = day.day_id;
-    if (theaterTitle) theaterTitle.textContent = item.clean_title;
+    progress.last_active = { day_id: day.day_id, item_id: item.id };
+    persistLocalProgress();
+
+    if (stageDayBadge) stageDayBadge.textContent = day.day_id;
+    if (stageLectureTitle) stageLectureTitle.textContent = item.clean_title;
+    if (stageDurationTag) {
+      stageDurationTag.textContent = item.duration ? `⏱️ ${item.duration}` : `${item.size_mb} MB`;
+    }
+
+    // Update Stage Buttons
+    updateStageCompleteBtn(item.id);
+    updateStageStarBtn(item.id);
 
     if (item.is_mkv) {
-      toast('MKV video container detected. Launching in VLC / Windows player is recommended for best quality.', 'info');
+      toast('MKV video container detected. Launching in VLC / Windows player is recommended if browser codec is limited.', 'info');
     }
 
-    const streamUrl = `/api/stream?path=${encodeURIComponent(item.full_path)}`;
-    theaterVideo.src = streamUrl;
-    videoTheater.style.display = 'flex';
+    if (stageVideo) {
+      const streamUrl = `/api/stream?path=${encodeURIComponent(item.full_path)}`;
+      if (!stageVideo.src.includes(encodeURIComponent(item.full_path))) {
+        stageVideo.src = streamUrl;
+      }
 
-    // Resume saved playback position
-    const savedPos = progress.playback_positions && progress.playback_positions[item.id];
-    if (savedPos && savedPos.current_time > 10 && (savedPos.duration - savedPos.current_time) > 15) {
-      theaterVideo.currentTime = savedPos.current_time;
-      toast(`Resuming from ${formatSeconds(savedPos.current_time)}`, 'info');
+      // Resume saved playback position
+      const savedPos = progress.playback_positions && progress.playback_positions[item.id];
+      if (savedPos && savedPos.current_time > 10 && (savedPos.duration - savedPos.current_time) > 15) {
+        stageVideo.currentTime = savedPos.current_time;
+        toast(`Resuming from ${formatSeconds(savedPos.current_time)}`, 'info');
+      }
+
+      stageVideo.onerror = () => {
+        if (isStaticMode) {
+          toast('📺 Video Streaming: Runs when host backend is active on your laptop.', 'info');
+        }
+      };
+
+      if (autoPlay) {
+        stageVideo.play().catch(() => {});
+      }
+
+      highlightActiveLectureCard(item.id);
+
+      clearInterval(videoTimeUpdateTimer);
+      videoTimeUpdateTimer = setInterval(() => {
+        if (!stageVideo.paused && stageVideo.currentTime > 0) {
+          savePlaybackPosition(item.id, stageVideo.currentTime, stageVideo.duration);
+        }
+      }, 4000);
+
+      stageVideo.onended = () => {
+        handleStageVideoEnded();
+      };
     }
+  }
 
-    theaterVideo.onerror = () => {
-      if (isStaticMode) {
-        toast('📺 Video Streaming: Runs when host backend is active on your laptop.', 'info');
-      }
-    };
-
-    theaterVideo.play().catch(() => {});
-
-    clearInterval(videoTimeUpdateTimer);
-    videoTimeUpdateTimer = setInterval(() => {
-      if (!theaterVideo.paused && theaterVideo.currentTime > 0) {
-        savePlaybackPosition(item.id, theaterVideo.currentTime, theaterVideo.duration);
-      }
-    }, 4000);
-
-    theaterVideo.onended = () => {
-      autoMarkVideoFinished();
-    };
+  function openVideo(item, day, autoPlay = true) {
+    stageLecture(item, day, autoPlay);
+    if (classroomStage) {
+      classroomStage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
   }
 
   function closeVideo() {
     clearInterval(videoTimeUpdateTimer);
-    if (currentPlayingItem && theaterVideo.currentTime > 0) {
-      savePlaybackPosition(currentPlayingItem.id, theaterVideo.currentTime, theaterVideo.duration);
+    if (stageVideo) {
+      if (currentPlayingItem && stageVideo.currentTime > 0) {
+        savePlaybackPosition(currentPlayingItem.id, stageVideo.currentTime, stageVideo.duration);
+      }
+      stageVideo.pause();
     }
-    theaterVideo.pause();
-    theaterVideo.removeAttribute('src');
-    videoTheater.style.display = 'none';
-    currentPlayingItem = null;
+    if (theaterVideo) {
+      theaterVideo.pause();
+      theaterVideo.removeAttribute('src');
+      if (videoTheater) videoTheater.style.display = 'none';
+    }
   }
 
   function savePlaybackPosition(itemId, curr, dur) {
@@ -1072,51 +1153,123 @@
     }).catch(() => {});
   }
 
-  function autoMarkVideoFinished() {
-    if (!currentPlayingItem) return;
-    const itemId = currentPlayingItem.id;
-    if (!progress.completed_items[itemId]) {
-      progress.completed_items[itemId] = { completed: true, completed_at: new Date().toISOString() };
-      persistLocalProgress();
-      fetch('/api/progress/toggle', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ item_id: itemId, completed: true })
-      }).catch(() => {});
-      updateTopMetrics();
-      updateResumeBanner();
-      renderActiveDay();
-      updateSidebarPillForDay(activeDayId);
-      toast('Lecture completed! Marked done 🎉', 'success');
+  function updateStageCompleteBtn(itemId) {
+    if (!btnStageMarkComplete) return;
+    const isDone = !!(progress.completed_items && progress.completed_items[itemId]);
+    if (isDone) {
+      btnStageMarkComplete.classList.add('completed');
+      if (stageMarkLabel) stageMarkLabel.textContent = '✓ Completed';
+    } else {
+      btnStageMarkComplete.classList.remove('completed');
+      if (stageMarkLabel) stageMarkLabel.textContent = 'Mark as Completed';
     }
   }
 
-  function playNextLectureInQueue() {
-    autoMarkVideoFinished();
+  function toggleStageLectureComplete() {
+    if (!currentPlayingItem) return;
+    const itemId = currentPlayingItem.id;
+    const wasDone = !!(progress.completed_items && progress.completed_items[itemId]);
+    const newStatus = !wasDone;
 
-    if (!catalog || !catalog.days || !currentPlayingItem) return;
+    const cardElem = document.querySelector(`.lecture-card[data-item-id="${itemId}"]`);
+    handleToggleItem(itemId, newStatus, cardElem);
+    updateStageCompleteBtn(itemId);
+
+    if (newStatus) {
+      toast(`✓ Lecture Completed: "${currentPlayingItem.clean_title}"`, 'success');
+    } else {
+      toast(`Marked uncompleted: "${currentPlayingItem.clean_title}"`, 'info');
+    }
+  }
+
+  function updateStageStarBtn(itemId) {
+    if (!stageBtnStar) return;
+    const isStarred = !!(progress.starred_items && progress.starred_items[itemId]);
+    stageBtnStar.classList.toggle('active', isStarred);
+  }
+
+  function toggleStageLectureStar() {
+    if (!currentPlayingItem) return;
+    const itemId = currentPlayingItem.id;
+    const cardElem = document.querySelector(`.lecture-card[data-item-id="${itemId}"]`);
+    const starBtnInCard = cardElem ? cardElem.querySelector('.btn-star-mark') : null;
+    handleToggleStar(itemId, starBtnInCard);
+    updateStageStarBtn(itemId);
+  }
+
+  function stageNavigateLecture(direction) {
+    if (!catalog || !catalog.days) return;
     const day = catalog.days.find(d => d.day_id === activeDayId);
     if (!day) return;
-
     const videos = day.items.filter(i => i.type === 'video');
-    const idx = videos.findIndex(v => v.id === currentPlayingItem.id);
+    if (!videos.length) return;
 
-    if (idx >= 0 && idx < videos.length - 1) {
-      const nextVid = videos[idx + 1];
-      openVideo(nextVid, day);
-      toast(`Playing Next: ${nextVid.clean_title}`, 'info');
-    } else {
-      const nextDay = getAdjacentDay('next');
-      if (nextDay) {
-        toast(`Day finished! Advancing to ${nextDay.day_id}... 🔥`, 'success');
-        selectDay(nextDay.day_id);
-        const firstVid = nextDay.items.find(i => i.type === 'video');
-        if (firstVid) openVideo(firstVid, nextDay);
+    let idx = -1;
+    if (currentPlayingItem) {
+      idx = videos.findIndex(v => v.id === currentPlayingItem.id);
+    }
+
+    if (direction === 'next') {
+      if (idx >= 0 && idx < videos.length - 1) {
+        const nextVid = videos[idx + 1];
+        stageLecture(nextVid, day, true);
+        toast(`Playing Next: ${nextVid.clean_title}`, 'info');
       } else {
-        toast('You completed the entire course curriculum! Outstanding! 🏆', 'success');
-        closeVideo();
+        const nextDay = getAdjacentDay('next');
+        if (nextDay) {
+          toast(`Advancing to ${nextDay.day_id}... 🔥`, 'success');
+          selectDay(nextDay.day_id);
+          const firstVid = nextDay.items.find(i => i.type === 'video') || nextDay.items[0];
+          if (firstVid) stageLecture(firstVid, nextDay, true);
+        } else {
+          toast('You completed the entire course curriculum! Outstanding! 🏆', 'success');
+        }
+      }
+    } else if (direction === 'prev') {
+      if (idx > 0) {
+        const prevVid = videos[idx - 1];
+        stageLecture(prevVid, day, true);
+        toast(`Playing: ${prevVid.clean_title}`, 'info');
+      } else {
+        const prevDay = getAdjacentDay('prev');
+        if (prevDay) {
+          selectDay(prevDay.day_id);
+          const prevVids = prevDay.items.filter(i => i.type === 'video');
+          const lastVid = prevVids.length ? prevVids[prevVids.length - 1] : prevDay.items[prevDay.items.length - 1];
+          if (lastVid) stageLecture(lastVid, prevDay, true);
+        }
       }
     }
+  }
+
+  function handleStageVideoEnded() {
+    if (!currentPlayingItem) return;
+    const itemId = currentPlayingItem.id;
+    if (!progress.completed_items[itemId]) {
+      const cardElem = document.querySelector(`.lecture-card[data-item-id="${itemId}"]`);
+      handleToggleItem(itemId, true, cardElem);
+      updateStageCompleteBtn(itemId);
+      toast('Lecture finished! Marked completed 🎉', 'success');
+    }
+    // Seamlessly cue next lecture after 1.5 seconds
+    setTimeout(() => {
+      stageNavigateLecture('next');
+    }, 1500);
+  }
+
+  function highlightActiveLectureCard(itemId) {
+    if (!itemId) return;
+    document.querySelectorAll('.lecture-card').forEach(c => {
+      if (c.dataset.itemId === itemId) {
+        c.classList.add('currently-playing');
+      } else {
+        c.classList.remove('currently-playing');
+      }
+    });
+  }
+
+  function playNextLectureInQueue() {
+    stageNavigateLecture('next');
   }
 
   // -------------------------------------------------------------
@@ -1607,6 +1760,51 @@
       });
     }
 
+    // --- Apna College Classroom Stage Listeners ---
+    stageSpeedBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        stageSpeedBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        if (stageVideo) {
+          stageVideo.playbackRate = parseFloat(btn.dataset.spd);
+        }
+      });
+    });
+
+    if (btnToggleTheaterExpand && classroomStage) {
+      btnToggleTheaterExpand.addEventListener('click', () => {
+        const isExp = classroomStage.classList.toggle('theater-expanded');
+        btnToggleTheaterExpand.classList.toggle('active', isExp);
+        const txt = btnToggleTheaterExpand.querySelector('span');
+        if (txt) txt.textContent = isExp ? 'Exit Theater' : 'Theater';
+        if (isExp) document.body.classList.add('theater-active');
+        else document.body.classList.remove('theater-active');
+      });
+    }
+
+    if (btnStageNextLecture) {
+      btnStageNextLecture.addEventListener('click', () => stageNavigateLecture('next'));
+    }
+    if (btnStagePrevLecture) {
+      btnStagePrevLecture.addEventListener('click', () => stageNavigateLecture('prev'));
+    }
+    if (btnStageMarkComplete) {
+      btnStageMarkComplete.addEventListener('click', toggleStageLectureComplete);
+    }
+    if (stageBtnStar) {
+      stageBtnStar.addEventListener('click', toggleStageLectureStar);
+    }
+    if (stageBtnVlc) {
+      stageBtnVlc.addEventListener('click', () => {
+        if (currentPlayingItem) openLaptopApp(currentPlayingItem.full_path);
+      });
+    }
+    if (stageBtnFolder) {
+      stageBtnFolder.addEventListener('click', () => {
+        if (currentPlayingItem) revealExplorer(currentPlayingItem.full_path);
+      });
+    }
+
     speedBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         speedBtns.forEach(b => b.classList.remove('active'));
@@ -1755,6 +1953,15 @@
       }
 
       if (e.key === 'Escape') {
+        if (classroomStage && classroomStage.classList.contains('theater-expanded')) {
+          classroomStage.classList.remove('theater-expanded');
+          if (btnToggleTheaterExpand) {
+            btnToggleTheaterExpand.classList.remove('active');
+            const txt = btnToggleTheaterExpand.querySelector('span');
+            if (txt) txt.textContent = 'Theater';
+          }
+          document.body.classList.remove('theater-active');
+        }
         if (videoTheater && videoTheater.style.display === 'flex') closeVideo();
         if (searchModal) searchModal.style.display = 'none';
         if (starredModal) starredModal.style.display = 'none';
@@ -1763,21 +1970,27 @@
         if (customTimeModal) customTimeModal.style.display = 'none';
       }
 
-      if (videoTheater && videoTheater.style.display === 'flex' && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
-        if (e.code === 'Space') {
-          e.preventDefault();
-          if (theaterVideo.paused) theaterVideo.play();
-          else theaterVideo.pause();
-        }
-        if (e.key === 'ArrowRight') {
-          theaterVideo.currentTime = Math.min(theaterVideo.duration, theaterVideo.currentTime + 5);
-        }
-        if (e.key === 'ArrowLeft') {
-          theaterVideo.currentTime = Math.max(0, theaterVideo.currentTime - 5);
-        }
-        if (e.key.toLowerCase() === 'f') {
-          if (document.fullscreenElement) document.exitFullscreen();
-          else theaterVideo.requestFullscreen();
+      if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+        if (classroomStage && classroomStage.classList.contains('theater-expanded') && e.key.toLowerCase() === 'f') {
+          classroomStage.classList.remove('theater-expanded');
+          if (btnToggleTheaterExpand) btnToggleTheaterExpand.classList.remove('active');
+          document.body.classList.remove('theater-active');
+        } else if (videoTheater && videoTheater.style.display === 'flex') {
+          if (e.code === 'Space') {
+            e.preventDefault();
+            if (theaterVideo.paused) theaterVideo.play();
+            else theaterVideo.pause();
+          }
+          if (e.key === 'ArrowRight') {
+            theaterVideo.currentTime = Math.min(theaterVideo.duration, theaterVideo.currentTime + 5);
+          }
+          if (e.key === 'ArrowLeft') {
+            theaterVideo.currentTime = Math.max(0, theaterVideo.currentTime - 5);
+          }
+          if (e.key.toLowerCase() === 'f') {
+            if (document.fullscreenElement) document.exitFullscreen();
+            else theaterVideo.requestFullscreen();
+          }
         }
       }
     });

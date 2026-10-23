@@ -2477,3 +2477,467 @@ html, body {
   background: #0f172a;
   color: #ffffff;
 }
+
+/* ==========================================================================
+   APNA COLLEGE EMBEDDED CLASSROOM STAGE (Cinema Player & Action Console)
+   ========================================================================== */
+.apna-classroom-stage {
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 20;
+}
+
+.apna-player-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  transition: all 0.25s ease;
+}
+
+[data-theme="light"] .apna-player-card {
+  background: #ffffff;
+  border-color: #e2e8f0;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+/* --- Topbar --- */
+.apna-player-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+[data-theme="light"] .apna-player-topbar {
+  background: #f8fafc;
+  border-bottom-color: #e2e8f0;
+}
+
+.apna-lecture-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.apna-module-badge {
+  font-size: 11px;
+  font-weight: 800;
+  font-family: var(--font-mono);
+  background: rgba(37, 99, 235, 0.15);
+  color: #60a5fa;
+  border: 1px solid rgba(37, 99, 235, 0.3);
+  padding: 3px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+[data-theme="light"] .apna-module-badge {
+  background: #eff6ff;
+  color: #2563eb;
+  border-color: #bfdbfe;
+}
+
+.apna-lecture-title {
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 480px;
+}
+
+[data-theme="light"] .apna-lecture-title {
+  color: #0f172a;
+}
+
+.apna-duration-tag {
+  font-size: 11.5px;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+[data-theme="light"] .apna-duration-tag {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.apna-player-tools {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.apna-speed-selector {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.apna-speed-lbl {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-right: 2px;
+}
+
+[data-theme="light"] .apna-speed-lbl {
+  color: #64748b;
+}
+
+.stage-speed-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.stage-speed-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+
+.stage-speed-btn.active {
+  background: var(--blue-apna, #2563eb);
+  color: #ffffff;
+  border-color: var(--blue-apna, #2563eb);
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.35);
+}
+
+[data-theme="light"] .stage-speed-btn {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #475569;
+}
+
+[data-theme="light"] .stage-speed-btn:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+[data-theme="light"] .stage-speed-btn.active {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
+}
+
+.btn-apna-theater {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-apna-theater:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+
+.btn-apna-theater.active {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
+}
+
+[data-theme="light"] .btn-apna-theater {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #334155;
+}
+
+[data-theme="light"] .btn-apna-theater:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+[data-theme="light"] .btn-apna-theater.active {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
+}
+
+/* --- Video Screen Viewport --- */
+.apna-video-screen {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000000;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#stage-video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  outline: none;
+  background: #000000;
+}
+
+/* --- Action Console --- */
+.apna-action-console {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 14px 20px;
+  background: rgba(255, 255, 255, 0.02);
+  border-top: 1px solid var(--border-subtle);
+}
+
+[data-theme="light"] .apna-action-console {
+  background: #f8fafc;
+  border-top-color: #e2e8f0;
+}
+
+.console-nav-cluster {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.apna-btn-nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.apna-btn-nav:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
+}
+
+.apna-btn-nav.highlight {
+  background: rgba(37, 99, 235, 0.2);
+  border-color: rgba(37, 99, 235, 0.4);
+  color: #93c5fd;
+}
+
+.apna-btn-nav.highlight:hover {
+  background: rgba(37, 99, 235, 0.35);
+  color: #ffffff;
+}
+
+[data-theme="light"] .apna-btn-nav {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #1e293b;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] .apna-btn-nav:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+[data-theme="light"] .apna-btn-nav.highlight {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+  color: #1d4ed8;
+}
+
+[data-theme="light"] .apna-btn-nav.highlight:hover {
+  background: #dbeafe;
+}
+
+/* Apna College Signature: Primary Mark Complete */
+.apna-btn-complete {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 22px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 800;
+  cursor: pointer;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1.5px solid rgba(16, 185, 129, 0.45);
+  color: #34d399;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.apna-btn-complete:hover {
+  background: rgba(16, 185, 129, 0.22);
+  transform: translateY(-1px);
+}
+
+.apna-btn-complete .complete-icon {
+  font-size: 15px;
+  font-weight: 900;
+}
+
+.apna-btn-complete.completed {
+  background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+  border-color: #059669;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+}
+
+.apna-btn-complete.completed:hover {
+  background: linear-gradient(135deg, #047857 0%, #059669 100%);
+}
+
+[data-theme="light"] .apna-btn-complete {
+  background: #f0fdf4;
+  border-color: #86efac;
+  color: #059669;
+}
+
+[data-theme="light"] .apna-btn-complete:hover {
+  background: #dcfce7;
+}
+
+[data-theme="light"] .apna-btn-complete.completed {
+  background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+  border-color: #059669;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25);
+}
+
+.console-tools-cluster {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.apna-tool-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 13px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.apna-tool-pill:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--text-primary);
+}
+
+.apna-tool-pill.active {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: rgba(245, 158, 11, 0.4);
+  color: #fbbf24;
+}
+
+[data-theme="light"] .apna-tool-pill {
+  background: #ffffff;
+  border-color: #e2e8f0;
+  color: #475569;
+}
+
+[data-theme="light"] .apna-tool-pill:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+[data-theme="light"] .apna-tool-pill.active {
+  background: #fef3c7;
+  border-color: #fde68a;
+  color: #d97706;
+}
+
+/* --- Full Cinema Theater Expand --- */
+.apna-classroom-stage.theater-expanded {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  border-radius: 0;
+  background: #000000;
+  display: flex;
+  flex-direction: column;
+}
+
+.apna-classroom-stage.theater-expanded .apna-player-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0;
+  border: none;
+  background: #000000;
+}
+
+.apna-classroom-stage.theater-expanded .apna-video-screen {
+  flex: 1;
+  aspect-ratio: auto;
+  height: 100%;
+}
+
+.apna-classroom-stage.theater-expanded .apna-player-topbar,
+.apna-classroom-stage.theater-expanded .apna-action-console {
+  background: #0f172a;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+body.theater-active {
+  overflow: hidden;
+}
+
+/* --- Active Lecture Playing Indicator in Cards List --- */
+.lecture-card.currently-playing {
+  border-color: #3b82f6 !important;
+  background: rgba(37, 99, 235, 0.08) !important;
+  box-shadow: 0 0 0 1px #3b82f6, 0 4px 14px rgba(37, 99, 235, 0.15) !important;
+}
+
+[data-theme="light"] .lecture-card.currently-playing {
+  border-color: #2563eb !important;
+  background: #f0f7ff !important;
+  box-shadow: 0 0 0 1px #2563eb, 0 4px 14px rgba(37, 99, 235, 0.12) !important;
+}
+
+.lecture-card.currently-playing .lecture-name {
+  color: #2563eb !important;
+  font-weight: 700;
+}

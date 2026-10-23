@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=3.2">
+  <link rel="stylesheet" href="style.css?v=4.0">
 </head>
 <body>
   <div class="ambient-glow glow-1"></div>
@@ -18,15 +18,18 @@
     <!-- EXECUTIVE TOP NAVIGATION -->
     <header class="top-nav">
       <div class="nav-brand-section">
-        <div class="brand-avatar">
-          <span class="brand-symbol">◈</span>
+        <div class="brand-avatar apna-avatar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+            <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+          </svg>
         </div>
         <div class="brand-text">
           <div class="brand-title-row">
-            <span class="brand-name">PRIME AI/ML MASTERCLASS</span>
-            <span class="brand-badge-pro">PRO ENROLLED</span>
+            <span class="brand-name apna-brand">Apna College</span>
+            <span class="brand-badge-pro">DELTA • AI/ML PRIME BATCH</span>
           </div>
-          <div class="brand-owner">Student: <strong>dj</strong> • 62-Day AI Engineer Cohort</div>
+          <div class="brand-owner">Student: <strong>dj</strong> • Verified Enrolled Classroom</div>
         </div>
       </div>
 
@@ -193,30 +196,101 @@
         </div>
       </aside>
 
-      <!-- CENTER WORKSPACE (NOW PROPERLY SCROLLABLE!) -->
+      <!-- CENTER WORKSPACE (APNA COLLEGE CLASSROOM LAYOUT) -->
       <main class="content-workspace" id="content-workspace">
         
-        <!-- COMPACT RESUME STRIP -->
-        <section class="compact-resume-strip" id="resume-banner">
-          <div class="c-resume-left">
-            <span class="pulse-dot"></span>
-            <span class="c-resume-badge" id="resume-day-badge">DAY 01</span>
-            <span class="c-resume-title" id="resume-lecture-title">01. Course Objective</span>
-            <span class="c-resume-time" id="resume-time-badge">⏱️ 7m 17s</span>
+        <!-- APNA COLLEGE EMBEDDED CLASSROOM VIDEO STAGE -->
+        <section class="apna-classroom-stage" id="classroom-stage">
+          <div class="apna-player-card">
+            
+            <!-- Video Top Meta & Speed Control -->
+            <div class="apna-player-topbar">
+              <div class="apna-lecture-meta">
+                <span class="apna-module-badge" id="stage-day-badge">DAY 01</span>
+                <h2 class="apna-lecture-title" id="stage-lecture-title">01. Course Objective</h2>
+                <span class="apna-duration-tag" id="stage-duration-tag">⏱️ 7m 17s</span>
+              </div>
+              
+              <div class="apna-player-tools">
+                <div class="apna-speed-selector">
+                  <span class="apna-speed-lbl">Speed:</span>
+                  <button class="stage-speed-btn" data-spd="0.75">0.75x</button>
+                  <button class="stage-speed-btn active" data-spd="1.0">1.0x</button>
+                  <button class="stage-speed-btn" data-spd="1.25">1.25x</button>
+                  <button class="stage-speed-btn" data-spd="1.5">1.5x</button>
+                  <button class="stage-speed-btn" data-spd="2.0">2.0x</button>
+                </div>
+                <button class="btn-apna-theater" id="btn-toggle-theater-expand" title="Cinema Theater Mode (F)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <polyline points="9 21 3 21 3 15"></polyline>
+                    <line x1="21" y1="3" x2="14" y2="10"></line>
+                    <line x1="3" y1="21" x2="10" y2="14"></line>
+                  </svg>
+                  <span>Theater</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Embedded 16:9 Cinema Player Screen -->
+            <div class="apna-video-screen" id="apna-video-screen">
+              <video id="stage-video" controls preload="metadata" playsinline></video>
+            </div>
+
+            <!-- APNA COLLEGE LECTURE ACTION CONSOLE -->
+            <div class="apna-action-console">
+              <div class="console-nav-cluster">
+                <button class="apna-btn-nav" id="btn-stage-prev-lecture" title="Previous Lecture">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                  </svg>
+                  <span>Previous Lecture</span>
+                </button>
+
+                <!-- APNA COLLEGE SIGNATURE: PRIMARY "MARK AS COMPLETED" -->
+                <button class="apna-btn-complete" id="btn-stage-mark-complete">
+                  <span class="complete-icon">✓</span>
+                  <span class="complete-text" id="stage-mark-label">Mark as Completed</span>
+                </button>
+
+                <button class="apna-btn-nav highlight" id="btn-stage-next-lecture" title="Next Lecture">
+                  <span>Next Lecture</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </button>
+              </div>
+
+              <div class="console-tools-cluster">
+                <button class="apna-tool-pill" id="stage-btn-star" title="Star for Revision Bank">
+                  <span class="star-glyph">★</span>
+                  <span>Revision</span>
+                </button>
+                <button class="apna-tool-pill" id="stage-btn-vlc" title="Open in VLC / Windows Player">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg>
+                  <span>Launch Laptop App</span>
+                </button>
+                <button class="apna-tool-pill" id="stage-btn-folder" title="Reveal in Windows Explorer">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                  </svg>
+                  <span>Folder</span>
+                </button>
+              </div>
+            </div>
+
           </div>
-          <button class="c-resume-btn" id="resume-watch-btn">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-              <polygon points="5 3 19 12 5 21 5 3"></polygon>
-            </svg>
-            <span>Watch Next</span>
-          </button>
         </section>
 
-        <!-- CURRENT DAY PANEL WITH PREV / NEXT BUTTONS -->
+        <!-- CURRENT DAY OVERVIEW & BREADCRUMBS -->
         <section class="current-day-panel">
           <div class="day-panel-header">
             <div class="day-panel-title-col">
               <div class="day-breadcrumbs">
+                <span class="crumb-apna">APNA COLLEGE</span>
+                <span class="crumb-divider">/</span>
                 <span class="crumb-phase" id="day-phase-name">Phase 1: Python Core & OOP</span>
                 <span class="crumb-divider">/</span>
                 <span class="crumb-day" id="day-number-label">DAY 01</span>
@@ -533,6 +607,6 @@
 
   </div>
 
-  <script src="app.js?v=3.2"></script>
+  <script src="app.js?v=4.0"></script>
 </body>
 </html>
