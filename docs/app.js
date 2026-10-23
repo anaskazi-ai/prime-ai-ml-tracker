@@ -383,6 +383,8 @@
 
     const todayMins = todayLog ? (todayLog.minutes || 0) : 0;
     if (todayStudyMins) todayStudyMins.textContent = `${todayMins}m`;
+    const sidebarTodayMins = document.getElementById('sidebar-today-mins');
+    if (sidebarTodayMins) sidebarTodayMins.textContent = `${todayMins}m`;
 
     const starCount = Object.keys(progress.starred_items || {}).length;
     if (starredCountPill) starredCountPill.textContent = starCount;
@@ -1694,17 +1696,42 @@
       btnTimePlus5.addEventListener('click', () => adjustPomoMinutes(5));
     }
 
+    const btnToggleFocusDropdown = document.getElementById('btn-toggle-focus-dropdown');
+    const focusDropdownPopover = document.getElementById('focus-dropdown-popover');
+    if (btnToggleFocusDropdown && focusDropdownPopover) {
+      btnToggleFocusDropdown.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isShown = focusDropdownPopover.style.display !== 'none';
+        focusDropdownPopover.style.display = isShown ? 'none' : 'block';
+      });
+      document.addEventListener('click', (e) => {
+        if (!focusDropdownPopover.contains(e.target) && e.target !== btnToggleFocusDropdown) {
+          focusDropdownPopover.style.display = 'none';
+        }
+      });
+    }
+
+    const btnHeaderProgress = document.getElementById('btn-header-progress');
+    if (btnHeaderProgress) {
+      btnHeaderProgress.addEventListener('click', () => {
+        renderRoadmapModal();
+        if (roadmapModal) roadmapModal.style.display = 'flex';
+      });
+    }
+
     pomoModes.forEach(btn => {
       btn.addEventListener('click', () => {
         const mins = parseInt(btn.dataset.mins, 10);
         if (mins) {
           setCustomPomoDuration(mins);
           resetPomo();
+          if (focusDropdownPopover) focusDropdownPopover.style.display = 'none';
         }
       });
     });
 
     const openCustomTimeDialog = () => {
+      if (focusDropdownPopover) focusDropdownPopover.style.display = 'none';
       if (customTimeModal) {
         customTimeModal.style.display = 'flex';
         if (inputCustomMinutes) inputCustomMinutes.value = pomoModeMins;

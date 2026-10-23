@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=4.0">
+  <link rel="stylesheet" href="style.css?v=4.5">
 </head>
 <body>
   <div class="ambient-glow glow-1"></div>
@@ -27,96 +27,91 @@
         <div class="brand-text">
           <div class="brand-title-row">
             <span class="brand-name apna-brand">Apna College</span>
-            <span class="brand-badge-pro">DELTA • AI/ML PRIME BATCH</span>
+            <span class="brand-badge-pro">DELTA • AI/ML</span>
           </div>
-          <div class="brand-owner">Student: <strong>dj</strong> • Verified Enrolled Classroom</div>
+          <div class="brand-owner"><span class="enrolled-dot"></span> Student: <strong>dj</strong></div>
         </div>
       </div>
 
-      <!-- Syllabus Progress & Study Metrics -->
-      <div class="header-stats">
-        <div class="stat-pill" title="Overall Curriculum Completion">
+      <!-- CENTER: SLEEK UNIFIED STUDY & FOCUS HUB -->
+      <div class="nav-center-hub">
+        
+        <!-- Syllabus Progress Pill -->
+        <div class="curriculum-progress-pill" id="btn-header-progress" title="Overall Curriculum Completion (Click to open Roadmap)">
           <div class="mini-progress-ring">
-            <svg width="34" height="34" viewBox="0 0 36 36">
+            <svg width="28" height="28" viewBox="0 0 36 36">
               <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
               <path id="header-ring" class="circle-prog" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
             </svg>
             <span id="header-percent" class="ring-caption">0%</span>
           </div>
-          <div class="stat-meta">
-            <span id="header-videos-done" class="stat-value">0 / 818</span>
-            <span class="stat-sub">Syllabus Done</span>
+          <div class="curriculum-progress-info">
+            <span id="header-videos-done" class="prog-nums">0 / 818</span>
+            <span class="prog-lbl">Syllabus</span>
           </div>
         </div>
 
-        <div class="stat-pill" title="Daily study streak — consistency builds mastery">
-          <span class="stat-icon-glow">🔥</span>
-          <div class="stat-meta">
-            <span id="header-streak" class="stat-value">1 Day</span>
-            <span class="stat-sub">Streak</span>
+        <div class="hub-divider"></div>
+
+        <!-- Focus Timer Pill & Quick Extension Controls -->
+        <div class="nav-focus-pill" id="nav-focus-studio">
+          <div class="focus-timer-cluster">
+            <button class="focus-adjust-btn" id="btn-time-minus-5" title="Subtract 5 Minutes (-5m)">-5m</button>
+            <div class="focus-timer-text" id="pomo-timer" title="Click to configure custom focus duration">25:00</div>
+            <button class="focus-adjust-btn highlight" id="btn-time-plus-5" title="Add 5 Minutes (+5m)">+5m</button>
           </div>
-        </div>
 
-        <div class="stat-pill" title="Today's goal pace">
-          <span class="stat-icon-glow">🎯</span>
-          <div class="stat-meta">
-            <span id="header-today-goal" class="stat-value">0 / 5</span>
-            <span class="stat-sub">Today's Target</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- FOCUS STUDIO & STUDY TIMER (Interactive Time Controls & Extensions) -->
-      <div class="nav-focus-studio" id="nav-focus-studio">
-        <div class="focus-brand-tag">
-          <span class="focus-pulse-dot"></span>
-          <span class="focus-label">FOCUS STUDIO</span>
-        </div>
-
-        <!-- Presets -->
-        <div class="focus-presets" id="pomo-modes">
-          <button class="focus-mode-btn" data-mins="15" title="15 Min Focus Sprint">15m</button>
-          <button class="focus-mode-btn active" data-mins="25" title="25 Min Standard Pomodoro">25m</button>
-          <button class="focus-mode-btn" data-mins="45" title="45 Min Deep Work Session">45m</button>
-          <button class="focus-mode-btn" data-mins="60" title="60 Min Intensive Power Block">60m</button>
-          <button class="focus-mode-btn" data-mins="90" title="90 Min Flow State Block">90m</button>
-          <button class="focus-mode-btn custom" id="btn-custom-time" title="Enter Custom Minutes">⏱️ Custom</button>
-        </div>
-
-        <!-- Interactive Adjustments: -5m, Time Display, +5m -->
-        <div class="focus-clock-cluster">
-          <button class="focus-adjust-btn" id="btn-time-minus-5" title="Subtract 5 Minutes (-5m)">-5m</button>
-          <div class="focus-timer-text" id="pomo-timer" title="Click to set custom duration">25:00</div>
-          <button class="focus-adjust-btn highlight" id="btn-time-plus-5" title="Add 5 Minutes (+5m)">+5m</button>
-        </div>
-
-        <!-- Action Buttons -->
-        <div class="focus-actions">
-          <button class="focus-action-btn play" id="pomo-toggle-btn" title="Start/Pause Focus (Space)">
+          <button class="focus-action-btn play" id="pomo-toggle-btn" title="Start / Pause Focus (Space)">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
               <polygon points="5 3 19 12 5 21 5 3"></polygon>
             </svg>
           </button>
+
           <button class="focus-action-btn reset" id="pomo-reset-btn" title="Reset Timer">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
               <path d="M3 3v5h5"></path>
             </svg>
           </button>
+
+          <!-- Dropdown Trigger for Presets & History -->
+          <div class="focus-presets-wrapper">
+            <button class="focus-presets-trigger" id="btn-toggle-focus-dropdown" title="Focus Presets & Modes">
+              <span class="preset-trigger-icon">⏱️</span>
+              <span class="preset-trigger-txt">Presets</span>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+
+            <!-- Floating Presets Popover -->
+            <div class="focus-dropdown-popover" id="focus-dropdown-popover" style="display: none;">
+              <div class="popover-header">
+                <span class="popover-title">Focus Presets</span>
+                <div class="today-focus-tag" title="Study time logged today">
+                  <span>⚡</span>
+                  <span id="today-study-mins">0m</span> today
+                </div>
+              </div>
+              <div class="popover-presets-grid" id="pomo-modes">
+                <button class="focus-mode-btn" data-mins="15">15m Sprint</button>
+                <button class="focus-mode-btn active" data-mins="25">25m Standard</button>
+                <button class="focus-mode-btn" data-mins="45">45m Deep Work</button>
+                <button class="focus-mode-btn" data-mins="60">60m Power</button>
+                <button class="focus-mode-btn" data-mins="90">90m Flow State</button>
+                <button class="focus-mode-btn custom" id="btn-custom-time">⏱️ Custom Time...</button>
+              </div>
+            </div>
+          </div>
+
         </div>
 
-        <!-- Today Focused Minutes Metric -->
-        <div class="focus-today-badge" title="Focused study time logged today">
-          <span class="focus-today-icon">⚡</span>
-          <span class="focus-today-val" id="today-study-mins">0m</span>
-          <span class="focus-today-lbl">today</span>
-        </div>
       </div>
 
       <!-- Actions -->
       <div class="header-actions">
-        <button class="header-btn" id="btn-open-search" title="Search (Ctrl + K)">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <button class="header-btn" id="btn-open-search" title="Search Lessons (Ctrl + K)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
@@ -131,7 +126,7 @@
         </button>
 
         <button class="header-btn" id="btn-open-roadmap" title="Curriculum Roadmap">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="18" y1="20" x2="18" y2="10"></line>
             <line x1="12" y1="20" x2="12" y2="4"></line>
             <line x1="6" y1="20" x2="6" y2="14"></line>
@@ -140,7 +135,7 @@
         </button>
 
         <button class="header-btn" id="btn-open-folder" title="Open D:\AI-ML Prime Course in Windows Explorer">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
           </svg>
           <span>Folder</span>
@@ -165,6 +160,26 @@
       
       <!-- SIDEBAR: DUAL VIEW (ALL 62 DAYS vs BY PHASE) -->
       <aside class="sidebar">
+        
+        <!-- Student Dashboard Strip (Streak & Target) -->
+        <div class="sidebar-student-card">
+          <div class="student-metric-item" title="Consecutive daily study streak">
+            <span class="metric-icon">🔥</span>
+            <div class="metric-info">
+              <span class="metric-val" id="header-streak">1 Day</span>
+              <span class="metric-lbl">Daily Streak</span>
+            </div>
+          </div>
+          <div class="metric-divider"></div>
+          <div class="student-metric-item" title="Lessons finished today towards daily target">
+            <span class="metric-icon">🎯</span>
+            <div class="metric-info">
+              <span class="metric-val" id="header-today-goal">0 / 5</span>
+              <span class="metric-lbl">Daily Target</span>
+            </div>
+          </div>
+        </div>
+
         <div class="sidebar-top">
           <!-- View Switcher -->
           <div class="sidebar-view-toggle">
@@ -607,6 +622,6 @@
 
   </div>
 
-  <script src="app.js?v=4.0"></script>
+  <script src="app.js?v=4.5"></script>
 </body>
 </html>

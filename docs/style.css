@@ -148,7 +148,9 @@ html, body {
   overflow: hidden;
 }
 
-/* TOP NAVIGATION */
+/* ==========================================================================
+   TOP NAVIGATION: EXECUTIVE LUXURY LMS HEADER (Height: 62px)
+   ========================================================================== */
 .top-nav {
   height: 62px;
   background: var(--bg-nav);
@@ -156,313 +158,564 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
-  gap: 16px;
+  padding: 0 24px;
+  gap: 20px;
   flex-shrink: 0;
   backdrop-filter: blur(20px);
+  z-index: 100;
 }
 
+[data-theme="light"] .top-nav {
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+}
+
+/* Brand Section */
 .nav-brand-section {
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-shrink: 0;
 }
-.brand-avatar {
-  width: 36px;
-  height: 36px;
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(6, 182, 212, 0.2));
-  border: 1px solid rgba(16, 185, 129, 0.4);
-  color: #34d399;
-  font-weight: 800;
+
+.brand-avatar.apna-avatar {
+  width: 38px;
+  height: 38px;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  color: #ffffff;
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 16px var(--emerald-glow);
+  box-shadow: 0 3px 10px rgba(37, 99, 235, 0.3);
+  border: none;
 }
-.brand-symbol {
-  font-size: 18px;
-  color: var(--emerald);
-  text-shadow: 0 0 8px var(--emerald-glow);
-}
+
 .brand-text {
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
+
 .brand-title-row {
   display: flex;
   align-items: center;
   gap: 8px;
 }
-.brand-name {
-  font-size: 13.5px;
+
+.brand-name.apna-brand {
+  font-size: 15px;
   font-weight: 800;
-  letter-spacing: 0.8px;
-  background: linear-gradient(90deg, #ffffff 30%, #a7f3d0 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.brand-badge-pro {
-  font-size: 8px;
-  font-weight: 800;
-  letter-spacing: 0.6px;
-  background: linear-gradient(135deg, #f59e0b, #d97706);
-  color: #160d00;
-  padding: 1px 6px;
-  border-radius: 4px;
-  box-shadow: 0 1px 6px rgba(245, 158, 11, 0.3);
-}
-.brand-owner {
-  font-size: 10.5px;
-  color: var(--text-muted);
-}
-.brand-owner strong {
-  color: #e2e8f0;
+  letter-spacing: -0.2px;
+  color: var(--text-primary);
+  background: none;
+  -webkit-text-fill-color: initial;
 }
 
-/* Stats in Header */
-.header-stats {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+[data-theme="light"] .brand-name.apna-brand {
+  color: #0f172a;
 }
-.stat-pill {
+
+.brand-badge-pro {
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  background: rgba(37, 99, 235, 0.12);
+  color: #60a5fa;
+  border: 1px solid rgba(37, 99, 235, 0.3);
+  padding: 2px 7px;
+  border-radius: 6px;
+  box-shadow: none;
+}
+
+[data-theme="light"] .brand-badge-pro {
+  background: #eff6ff;
+  color: #2563eb;
+  border-color: #bfdbfe;
+}
+
+.brand-owner {
   display: flex;
   align-items: center;
-  gap: 8px;
-  background: rgba(255, 255, 255, 0.035);
+  gap: 5px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.enrolled-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
+  display: inline-block;
+}
+
+.brand-owner strong {
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+[data-theme="light"] .brand-owner strong {
+  color: #1e293b;
+}
+
+/* Center Study & Focus Hub */
+.nav-center-hub {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+/* Curriculum Progress Pill */
+.curriculum-progress-pill {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  padding: 5px 12px;
-  transition: all 0.2s ease;
+  cursor: pointer;
+  transition: all 0.15s ease;
 }
-.stat-pill:hover {
-  background: rgba(255, 255, 255, 0.07);
-  border-color: rgba(255, 255, 255, 0.16);
+
+.curriculum-progress-pill:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: #2563eb;
   transform: translateY(-1px);
+}
+
+[data-theme="light"] .curriculum-progress-pill {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+}
+
+[data-theme="light"] .curriculum-progress-pill:hover {
+  background: #ffffff;
+  border-color: #2563eb;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.12);
 }
 
 .mini-progress-ring {
   position: relative;
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 .circle-bg {
   fill: none;
-  stroke: rgba(255, 255, 255, 0.09);
-  stroke-width: 3.8;
+  stroke: rgba(255, 255, 255, 0.1);
+  stroke-width: 4;
 }
+
+[data-theme="light"] .circle-bg {
+  stroke: #e2e8f0;
+}
+
 .circle-prog {
   fill: none;
-  stroke: var(--emerald);
-  stroke-width: 3.8;
+  stroke: #2563eb;
+  stroke-width: 4;
   stroke-linecap: round;
   transition: stroke-dasharray 0.5s ease;
 }
+
 .ring-caption {
   position: absolute;
-  font-size: 9px;
+  font-size: 8.5px;
   font-weight: 800;
   font-family: var(--font-mono);
-  color: #fff;
+  color: var(--text-primary);
 }
 
-.stat-meta {
+[data-theme="light"] .ring-caption {
+  color: #0f172a;
+}
+
+.curriculum-progress-info {
   display: flex;
   flex-direction: column;
-  gap: 1px;
-}
-.stat-value {
-  font-size: 12px;
-  font-weight: 800;
-  font-family: var(--font-mono);
-  color: #fff;
-}
-.stat-sub {
-  font-size: 9px;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-}
-.stat-icon-glow {
-  font-size: 16px;
-  filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.3));
+  line-height: 1.15;
 }
 
-/* EXECUTIVE FOCUS STUDIO & LIVE TIME ADJUSTMENTS */
-.nav-focus-studio {
+.prog-nums {
+  font-size: 11.5px;
+  font-weight: 800;
+  font-family: var(--font-mono);
+  color: var(--text-primary);
+}
+
+[data-theme="light"] .prog-nums {
+  color: #0f172a;
+}
+
+.prog-lbl {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+}
+
+.hub-divider {
+  width: 1px;
+  height: 24px;
+  background: var(--border-subtle);
+}
+
+[data-theme="light"] .hub-divider {
+  background: #e2e8f0;
+}
+
+/* Luxury Compact Focus Timer Pill */
+.nav-focus-pill {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: rgba(13, 18, 28, 0.95);
-  border: 1px solid rgba(16, 185, 129, 0.28);
   padding: 4px 10px;
-  border-radius: 30px;
-  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(16px);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+  position: relative;
+  transition: all 0.15s ease;
 }
-.focus-brand-tag {
+
+[data-theme="light"] .nav-focus-pill {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.focus-timer-cluster {
   display: flex;
   align-items: center;
   gap: 5px;
-  padding: 2px 7px;
-  background: rgba(16, 185, 129, 0.12);
-  border-radius: 12px;
-  border: 1px solid rgba(16, 185, 129, 0.2);
-}
-.focus-pulse-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--emerald);
-  box-shadow: 0 0 8px var(--emerald);
-  animation: pulse 2s infinite;
-}
-.focus-label {
-  font-size: 9px;
-  font-weight: 800;
-  letter-spacing: 0.6px;
-  color: var(--emerald);
-}
-.focus-presets {
-  display: flex;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.45);
-  border-radius: 16px;
-  padding: 2px;
-  gap: 2px;
-}
-.focus-mode-btn {
-  background: transparent;
-  border: none;
-  color: var(--text-muted);
-  font-size: 10px;
-  font-weight: 700;
-  padding: 4px 8px;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-.focus-mode-btn:hover {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.06);
-}
-.focus-mode-btn.active {
-  background: linear-gradient(135deg, var(--emerald), #059669);
-  color: #021a0f;
-  font-weight: 800;
-  box-shadow: 0 0 10px var(--emerald-glow);
-}
-.focus-mode-btn.custom {
-  font-family: var(--font-sans);
-}
-.focus-clock-cluster {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.35);
   padding: 2px 6px;
   border-radius: 14px;
-  border: 1px solid var(--border-subtle);
-}
-.focus-adjust-btn {
-  background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="light"] .focus-timer-cluster {
+  background: #ffffff;
+  border-color: #e2e8f0;
+}
+
+.focus-adjust-btn {
+  background: transparent;
+  border: none;
   color: var(--text-secondary);
-  font-size: 9.5px;
+  font-size: 10px;
   font-weight: 800;
   font-family: var(--font-mono);
-  padding: 3px 6px;
-  border-radius: 8px;
+  padding: 2px 5px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: all 0.12s ease;
 }
+
 .focus-adjust-btn:hover {
-  background: rgba(255, 255, 255, 0.15);
-  color: #fff;
-  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
 }
+
+[data-theme="light"] .focus-adjust-btn {
+  color: #64748b;
+}
+
+[data-theme="light"] .focus-adjust-btn:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
 .focus-adjust-btn.highlight {
-  color: #34d399;
-  border-color: rgba(16, 185, 129, 0.3);
+  color: #10b981;
 }
-.focus-adjust-btn.highlight:hover {
-  background: rgba(16, 185, 129, 0.25);
-  color: #fff;
+
+[data-theme="light"] .focus-adjust-btn.highlight {
+  color: #059669;
 }
+
 .focus-timer-text {
   font-family: var(--font-mono);
   font-size: 14px;
   font-weight: 800;
-  color: #fff;
-  min-width: 46px;
+  color: var(--text-primary);
+  min-width: 44px;
   text-align: center;
   cursor: pointer;
-  padding: 0 4px;
+  letter-spacing: 0.5px;
 }
-.focus-timer-text:hover {
-  color: var(--emerald);
-  text-shadow: 0 0 8px var(--emerald-glow);
+
+[data-theme="light"] .focus-timer-text {
+  color: #0f172a;
 }
-.focus-actions {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
+
 .focus-action-btn {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid var(--border-subtle);
-  color: #fff;
   width: 26px;
   height: 26px;
   border-radius: 50%;
+  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.15s ease;
 }
-.focus-action-btn:hover {
-  background: var(--emerald);
-  color: #021a0f;
-  box-shadow: 0 0 10px var(--emerald-glow);
+
+.focus-action-btn.play {
+  background: #059669;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(5, 150, 105, 0.35);
+}
+
+.focus-action-btn.play:hover {
+  background: #047857;
   transform: scale(1.06);
 }
-.focus-today-badge {
+
+.focus-action-btn.reset {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+.focus-action-btn.reset:hover {
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+}
+
+[data-theme="light"] .focus-action-btn.reset {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #64748b;
+}
+
+[data-theme="light"] .focus-action-btn.reset:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+/* Presets Dropdown Popover */
+.focus-presets-wrapper {
+  position: relative;
+}
+
+.focus-presets-trigger {
   display: flex;
   align-items: center;
   gap: 4px;
-  background: rgba(245, 158, 11, 0.12);
-  border: 1px solid rgba(245, 158, 11, 0.3);
-  padding: 2px 7px;
+  padding: 3px 9px;
   border-radius: 12px;
-}
-.focus-today-icon {
-  font-size: 10px;
-  color: #fbbf24;
-}
-.focus-today-val {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
   font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.focus-presets-trigger:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+
+[data-theme="light"] .focus-presets-trigger {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #334155;
+}
+
+[data-theme="light"] .focus-presets-trigger:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+  color: #0f172a;
+}
+
+.focus-dropdown-popover {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 260px;
+  background: #111827;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
+  padding: 12px;
+  z-index: 1000;
+}
+
+[data-theme="light"] .focus-dropdown-popover {
+  background: #ffffff;
+  border-color: #e2e8f0;
+  box-shadow: 0 14px 36px rgba(15, 23, 42, 0.12);
+}
+
+.popover-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+[data-theme="light"] .popover-header {
+  border-bottom-color: #f1f5f9;
+}
+
+.popover-title {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+[data-theme="light"] .popover-title {
+  color: #0f172a;
+}
+
+.today-focus-tag {
+  font-size: 11px;
+  font-weight: 700;
+  color: #f59e0b;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.popover-presets-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.popover-presets-grid .focus-mode-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.12s ease;
+}
+
+.popover-presets-grid .focus-mode-btn:hover {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
+}
+
+.popover-presets-grid .focus-mode-btn.active {
+  background: #059669;
+  color: #ffffff;
+  border-color: #059669;
+  font-weight: 700;
+}
+
+.popover-presets-grid .focus-mode-btn.custom {
+  grid-column: span 2;
+  background: rgba(255, 255, 255, 0.03);
+  font-weight: 700;
+  color: var(--blue, #2563eb);
+  border-color: rgba(37, 99, 235, 0.3);
+}
+
+[data-theme="light"] .popover-presets-grid .focus-mode-btn {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+  color: #334155;
+}
+
+[data-theme="light"] .popover-presets-grid .focus-mode-btn:hover {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
+}
+
+[data-theme="light"] .popover-presets-grid .focus-mode-btn.active {
+  background: #059669;
+  color: #ffffff;
+  border-color: #059669;
+}
+
+/* --- SIDEBAR STUDENT CARD (Streak & Daily Goal) --- */
+.sidebar-student-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 10px 12px;
+  margin: 12px 14px 6px 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+}
+
+[data-theme="light"] .sidebar-student-card {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.student-metric-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.student-metric-item .metric-icon {
+  font-size: 16px;
+}
+
+.student-metric-item .metric-info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.student-metric-item .metric-val {
+  font-size: 13px;
   font-weight: 800;
   font-family: var(--font-mono);
-  color: #fbbf24;
+  color: var(--text-primary);
 }
-.focus-today-lbl {
-  font-size: 8.5px;
+
+[data-theme="light"] .student-metric-item .metric-val {
+  color: #0f172a;
+}
+
+.student-metric-item .metric-lbl {
+  font-size: 9.5px;
   font-weight: 700;
-  color: var(--text-muted);
   text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+}
+
+.sidebar-student-card .metric-divider {
+  width: 1px;
+  height: 22px;
+  background: var(--border-subtle);
+}
+
+[data-theme="light"] .sidebar-student-card .metric-divider {
+  background: #e2e8f0;
 }
 
 /* Header Buttons */
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
 }
 .header-btn {
   display: flex;
@@ -471,18 +724,26 @@ html, body {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--border-subtle);
   color: var(--text-secondary);
-  height: 32px;
-  padding: 0 10px;
-  border-radius: var(--radius-md);
-  font-size: 11px;
+  height: 34px;
+  padding: 0 11px;
+  border-radius: 8px;
+  font-size: 11.5px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
 }
 .header-btn:hover {
   background: rgba(255, 255, 255, 0.08);
   color: #fff;
   border-color: var(--border-hover);
+  transform: translateY(-1px);
+}
+.theme-toggle-btn {
+  font-weight: 700;
+}
+[data-theme="light"] .theme-toggle-btn {
+  background: #f8fafc;
+  border-color: #cbd5e1;
 }
 .header-btn kbd {
   background: rgba(255, 255, 255, 0.08);
@@ -502,7 +763,7 @@ html, body {
 }
 .header-btn.icon-only {
   padding: 0;
-  width: 32px;
+  width: 34px;
   justify-content: center;
 }
 
@@ -2046,100 +2307,30 @@ html, body {
   text-shadow: none;
 }
 
-[data-theme="light"] .brand-name {
-  background: linear-gradient(90deg, #0f172a 30%, #059669 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+[data-theme="light"] .brand-name,
+[data-theme="light"] .brand-name.apna-brand {
+  color: #0f172a;
+  background: none;
+  -webkit-text-fill-color: initial;
 }
 
 [data-theme="light"] .brand-badge-pro {
-  background: #fef3c7;
-  color: #92400e;
-  border: 1px solid #fde68a;
+  background: #eff6ff;
+  color: #2563eb;
+  border: 1px solid #bfdbfe;
   box-shadow: none;
 }
 
-[data-theme="light"] .stat-pill {
-  background: #ffffff;
-  border-color: #e2e8f0;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
-}
-
-[data-theme="light"] .circle-bg {
-  stroke: #e2e8f0;
-}
-
-[data-theme="light"] .ring-caption {
-  color: #0f172a;
-}
-
-[data-theme="light"] .stat-value {
-  color: #0f172a;
-}
-
-[data-theme="light"] .nav-focus-studio {
-  background: #ffffff;
-  border-color: #cbd5e1;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
-}
-
-[data-theme="light"] .focus-brand-tag {
-  background: #ecfdf5;
-  border-color: #a7f3d0;
-}
-
-[data-theme="light"] .focus-presets {
-  background: #f1f5f9;
-}
-
-[data-theme="light"] .focus-mode-btn {
-  color: #64748b;
-}
-
-[data-theme="light"] .focus-mode-btn:hover {
-  background: #e2e8f0;
-  color: #0f172a;
-}
-
-[data-theme="light"] .focus-clock-cluster {
-  background: #f8fafc;
-  border-color: #e2e8f0;
-}
-
-[data-theme="light"] .focus-timer-text {
-  color: #0f172a;
-}
-
-[data-theme="light"] .focus-adjust-btn {
-  background: #ffffff;
-  border-color: #cbd5e1;
-  color: #334155;
-}
-
-[data-theme="light"] .focus-adjust-btn:hover {
-  background: #f1f5f9;
-  color: #0f172a;
-}
-
-[data-theme="light"] .focus-adjust-btn.highlight {
-  color: #059669;
-  border-color: rgba(5, 150, 105, 0.3);
-}
-
-[data-theme="light"] .focus-action-btn {
-  background: #f1f5f9;
-  border-color: #e2e8f0;
-  color: #334155;
-}
-
 [data-theme="light"] .header-btn {
-  background: #f1f5f9;
-  border-color: #e2e8f0;
+  background: #ffffff;
+  border-color: #cbd5e1;
   color: #334155;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
 }
 
 [data-theme="light"] .header-btn:hover {
-  background: #e2e8f0;
+  background: #f8fafc;
+  border-color: #94a3b8;
   color: #0f172a;
 }
 
