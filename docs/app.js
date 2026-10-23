@@ -163,6 +163,39 @@
   const toastShelf = document.getElementById('toast-shelf');
 
   // -------------------------------------------------------------
+  // Theme Engine (Clean Pearl White ☀️ ⟷ Obsidian Dark 🌙)
+  // -------------------------------------------------------------
+  let currentTheme = localStorage.getItem('prime_course_theme') || 'light';
+
+  function applyTheme(theme) {
+    currentTheme = theme;
+    document.documentElement.setAttribute('data-theme', theme);
+    try {
+      localStorage.setItem('prime_course_theme', theme);
+    } catch (e) {}
+
+    const themeIcon = document.getElementById('theme-icon');
+    const themeLabel = document.getElementById('theme-label');
+
+    if (theme === 'light') {
+      if (themeIcon) themeIcon.textContent = '🌙';
+      if (themeLabel) themeLabel.textContent = 'Dark';
+    } else {
+      if (themeIcon) themeIcon.textContent = '☀️';
+      if (themeLabel) themeLabel.textContent = 'Light';
+    }
+  }
+
+  function toggleTheme() {
+    const nextTheme = currentTheme === 'light' ? 'dark' : 'light';
+    applyTheme(nextTheme);
+    toast(`Theme switched to ${nextTheme === 'light' ? 'Clean Pearl White ☀️' : 'Obsidian Dark 🌙'}!`, 'info');
+  }
+
+  // Apply saved theme immediately to prevent any visual flicker
+  applyTheme(currentTheme);
+
+  // -------------------------------------------------------------
   // Dual Mode Persistence & Startup (SQLite Backend + Static Offline Fallback)
   // -------------------------------------------------------------
   let isStaticMode = false;
@@ -1604,6 +1637,11 @@
 
     if (searchCloseBtn) searchCloseBtn.addEventListener('click', () => { if (searchModal) searchModal.style.display = 'none'; });
     if (globalSearchField) globalSearchField.addEventListener('input', (e) => searchEverywhere(e.target.value));
+
+    const btnToggleTheme = document.getElementById('btn-toggle-theme');
+    if (btnToggleTheme) {
+      btnToggleTheme.addEventListener('click', toggleTheme);
+    }
 
     if (btnOpenStarred) {
       btnOpenStarred.addEventListener('click', () => {
