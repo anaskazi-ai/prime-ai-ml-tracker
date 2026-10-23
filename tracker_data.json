@@ -1,0 +1,18 @@
+{
+  "completed_items": {},
+  "starred_items": {},
+  "notes": {},
+  "daily_target": 10,
+  "pomodoro_history": [],
+  "study_log": {
+    "2026-10-23": {
+      "items_completed": 0,
+      "minutes": 0
+    }
+  },
+  "last_active": {
+    "day_id": "DAY 01",
+    "item_id": null,
+    "timestamp": "2026-10-23T08:42:04.753952"
+  }
+}
