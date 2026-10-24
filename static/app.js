@@ -289,6 +289,7 @@
       renderActiveDay();
       updateResumeBanner();
       updateTopMetrics();
+      initOfflineWatcher();
     } catch (err) {
       console.error('Initialization error:', err);
       toast('Failed to load course details. Ensure backend server or static catalog is available.', 'error');
@@ -2095,6 +2096,47 @@
       el.style.transition = 'all 0.3s ease';
       setTimeout(() => el.remove(), 300);
     }, 3200);
+  }
+
+  function initOfflineWatcher() {
+    const badge = document.getElementById('offline-badge');
+    const textEl = document.getElementById('offline-badge-text');
+
+    function syncStatus() {
+      const isOnline = navigator.onLine;
+      if (badge && textEl) {
+        if (isOnline) {
+          badge.classList.remove('offline-mode');
+          textEl.textContent = '100% Offline Ready';
+          badge.title = 'App runs 100% offline — local video engine & offline cache active';
+        } else {
+          badge.classList.add('offline-mode');
+          textEl.textContent = '⚡ Offline Mode Active';
+          badge.title = 'Running without internet — all local videos & cached data active';
+        }
+      }
+    }
+
+    window.addEventListener('online', () => {
+      syncStatus();
+      toast('🌐 Network connected — 100% Local Playback Active', 'success');
+    });
+
+    window.addEventListener('offline', () => {
+      syncStatus();
+      toast('⚡ Offline Mode: 100% Local Video Playback Active', 'info');
+    });
+
+    syncStatus();
+
+    // Register Service Worker for offline shell & asset caching
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js').then((reg) => {
+        console.log('[SW] ServiceWorker registered with scope:', reg.scope);
+      }).catch((err) => {
+        console.log('[SW] ServiceWorker registration info:', err);
+      });
+    }
   }
 
   document.addEventListener('DOMContentLoaded', startup);

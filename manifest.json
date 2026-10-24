@@ -1,0 +1,17 @@
+{
+  "name": "Apna College • Prime AI/ML Classroom Tracker",
+  "short_name": "AI/ML Tracker",
+  "description": "100% Offline-Ready Prime AI/ML Masterclass Tracker for Kazi Anas",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0B0F17",
+  "theme_color": "#2563EB",
+  "icons": [
+    {
+      "src": "./app_icon.ico",
+      "sizes": "256x256 128x128 64x64 32x32 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}
